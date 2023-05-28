@@ -1,0 +1,35 @@
+{% extends "layout-certificate.html" %}
+      {% block content %}
+
+      <p>{{session['datum']}}</p>
+      <h1>Begehung deines Gartens</h1>
+      <p>
+        <b>Parzelle: {{session['parzelle']}}</b>
+      </p>
+      <p>
+        Liebe Gartenfreund, liebe Gartenfreundin. Am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. alle G&auml;rten der Anlage angesehen und bewertet, ebenso haben wir die Dachfl&auml;che berechnet: <b>Die Dachfl&auml;che deines Gartens betr&auml;gt {{session['dach']}} m²</b> –  erlaubt sind nach Bundeskleingartengesetz, § 3 <b>maximal 24 m²</b>. Der Vorstand hat zur einfachen &Uuml;bersicht Schulnoten zur Bewertung vergeben. Weitere Details zu der Bewertung deines Gartens findest du unten.
+      </p>
+      <h3>Deinen Garten bewerten wir mit der Schulnote: <b>{{session['zustand']}}</b></h3>
+
+      <h2>Details zum Zustand deines Gartens:</h2>
+      <p>
+        {%for item in session['details']%}
+          <li class="w3-large">{{item}}</li>
+        {% endfor %}      </p>
+
+      <br>
+      <br>
+      <div class="w3-container">
+        <p>Wir wünschen dir ein schönes Gartenjahr! Bei Rückfragen kannst du dich jederzeit per E-Mail an uns wenden: <b>kgv.taunusgaerten.anlage3@gmail.com</b> </p>
+      <b>Dein Gartenvorstand</b>
+      <br>
+      <div class="w3-small w3-text-teal">
+        <li class=>Barbara Lange (Vorsitzende)</li>
+        <li>Stefan Weitzel (Zweiter Vorsitzender)</li>
+        <li>Lars K&uuml;ber (Gartenwart)</li>
+        <li>Andreas Lange (Kassierer)</li>
+        <li>Martin Schulte (Beisitzer)</li>
+        <li>Frauke Behrend (Kantinenbeauftragte)</li>
+      </div>
+
+      {% endblock %}
