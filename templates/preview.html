@@ -19,7 +19,7 @@
             <p class="w3-large">
               Die <b>Dachfl&auml;che</b> deines Gartens betr&auml;gt <b>{{session['dach']}} m²</b> – erlaubt sind nach Bundeskleingartengesetz, § 3 <b>maximal 24 m²</b>.
             </p>
-            <h4>Deinen Garten bewerten wir mit der Schulnote: <b>{{session['zustand']}}</b></h4>
+            <h4>Schulnote: <b>{{session['zustand']}}</b></h4>
           </div>
 
           <div class="w3-row">
@@ -27,10 +27,17 @@
               <h3><b>Details zum Zustand deines Gartens:</b></h3>
 
                 {%for item in session['details']%}
-                    <li class="w3-large">{{item}}</li><br>
+                    <li class="w3-large">{{item}}</li>
 
                 {% endfor %}
 
+                <br><br>
+                <p class="w3-large">
+                  Deinen Garten bewerteten:<br>
+                  <li class="w3-large">{{session['name1']}}</li>
+                  <li class="w3-large">{{session['name2']}}</li>
+                </p>
+                <br>
             <a href="javascript:history.back()"><b>Zur&uuml;ck & bearbeiten</b></a>
             <br>
             <br>

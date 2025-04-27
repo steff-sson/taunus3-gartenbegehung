@@ -11,17 +11,7 @@ import pdfkit
 from pdfkit.api import configuration
 
 # Name der Jahresdatenbank
-file = 'static/2023-gartenbegehung.csv'
-# Kopfzeile für Jahresdatenbank
-header = ['parzelle', 'Dachfläche', 'Zustand (Note)', 'Datum', 'Bewertungsdetails']
-if os.path.isfile(file) == False:
-    with open(file, 'w', encoding='UTF8') as f:
-        writer = csv.writer(f, delimiter=";")
-        writer.writerow(header)
-
-# Datum des Eintrages festlegen
-today = date.today()
-datum = today.strftime("%d.%m.%Y")
+file = 'static/gartenbegehung.csv'
 
 # Optionen zur PDF-Erstellung
 wkhtml_path = pdfkit.configuration(wkhtmltopdf = '/usr/bin/wkhtmltopdf')
@@ -53,42 +43,82 @@ app = Flask(__name__)
 app.config.update(SECRET_KEY='osd(99092=36&462134kjKDhuIS_d23',
                   ENV='development')
 
+@app.route('/name', methods=['GET', 'POST'])
+def name():
+    if request.method == 'POST':
+        if request.form.get('name1'):
+            session['name1'] = request.form['name1']
+        if request.form.get('name2'):
+            session['name2'] = request.form['name2']
+        return redirect(url_for('form'))
+    return render_template('name.html')
+
 @app.route('/form', methods=['GET', 'POST'])
 def form():
     # Variablen werden erstellt, bleiben aber leer.
     session['details'] = []
         # Variablen mit Details zur Gartenbewertung
-    session['details0'] = 'Die Dachfläche ist zu groß.'
-    session['details1'] = 'Gärtnerische Nutzung ist nicht erkennbar.'
-    session['details2'] = 'In dem Garten lagert Unrat/Müll.'
-    session['details3'] = 'Der Garten liegt – in Teilen – brach.'
-    session['details4'] = 'Büsche im Bereich der Gartenwege sind zu hoch (Zulässige Höhe: 2,00 bis 2,20m)'
-    session['details5'] = 'Der Unkrautwuchs hat nachteilige Auswirkungen (z.B. Samenflug) auf die Nachbargärten.'
-    session['details6'] = 'Die Gartenwege sind zu stark mit Unkraut bewachsen.'
-    session['details7'] = 'Äste, Zweige von Büschen und Bäumen ragen in die Gartenwege bzw. in Nachbargärten.'
-    session['details8'] = 'Der Garten enthält kranke Gehölze/Bäume. Diese sind zu entfernen!'
-    session['details9'] = 'Die Menge der gelagerten planzlichen Abfälle übersteigt das erlaubte Maß.'
-    session['details10'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten.'
+    session['details0'] = 'Der Garten ist insgesamt in einem guten Zustand. Weiter so!'
+    session['details1'] = 'Kein Stromzählerstand erfasst. Bitte den Stromzählerstand mit Foto an vorstand@taunus3.de übermitteln.'
+    session['details2'] = 'Die Dachfläche ist zu groß. Die Dachfläche muss bei Abgabe des Gartens verkleinert werden.'
+    session['details3'] = 'Gärtnerische Nutzung ist nicht erkennbar.'
+    session['details4'] = 'In dem Garten lagert Unrat/Müll.'
+    session['details5'] = 'Der Garten liegt – in Teilen – brach.'
+    session['details6'] = 'Hecke im Garten ist zu hoch (zulässige Höhe: 120cm)'
+    session['details7'] = 'Hecke an der Außengrenze ist zu hoch (zulässige Höhe: 180cm)'
+    session['details8'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten.'
+    session['details9'] = 'Der Unkrautwuchs hat nachteilige Auswirkungen (z.B. Samenflug) auf die Nachbargärten.'
+    session['details10'] = 'Die Gartenwege sind zu stark mit Unkraut bewachsen.'
+    session['details11'] = 'Äste, Zweige von Büschen und Bäumen ragen in die Gartenwege bzw. in Nachbargärten.'
+    session['details12'] = 'Der Garten enthält kranke Gehölze/Bäume. Diese sind zu entfernen!'
+    session['details13'] = 'Die Menge der gelagerten planzlichen Abfälle übersteigt das erlaubte Maß.'
+    session['details14'] = 'Kein Kompost vorhanden.'    
+    session['details15'] = 'Bitte die Parzellennummer sichtbar anbringen.'    
     if request.method == 'POST':
+        # Datum des Eintrages festlegen
+        today = date.today()
+        datum = today.strftime("%d.%m.%Y")
         # Das aktuelle Datum wird in die Session geschrieben
         session['datum'] = datum
         # Der Wert der Parzellennummer wird direkt in die Session gespeichert.
         session['parzelle'] = request.form['parzelle']
         # Der Wert der Dachfläche wird direkt in die Session geschrieben
         session['dach'] = request.form['dach']
+        # Der Wert der Dachfläche wird direkt in die Session geschrieben
+        session['strom'] = request.form['strom']
         # Der Wert des Schulnoten-Sliders werden direkt in die Session gespeichert.
-        if request.form['zustand'] == '1':
-            session['zustand'] =  'sehr gut (1)'
+        if request.form['zustand'] == '0':
+            session['zustand'] = 'ungenügend (0 Punkte)'
+        elif request.form['zustand'] == '1':
+            session['zustand'] = 'mangelhaft - (1 Punkt)'
         elif request.form['zustand'] == '2':
-            session['zustand'] =  'gut (2)'
+            session['zustand'] = 'mangelhaft (2 Punkte)'
         elif request.form['zustand'] == '3':
-            session['zustand'] =  'befriedigend (3)'
+            session['zustand'] = 'mangelhaft + (3 Punkte)'
         elif request.form['zustand'] == '4':
-            session['zustand'] =  'ausreichend (4)'
+            session['zustand'] = 'ausreichend - (4 Punkte)'
         elif request.form['zustand'] == '5':
-            session['zustand'] =  'mangelhaft (5)'
+            session['zustand'] = 'ausreichend (5 Punkte)'
+        elif request.form['zustand'] == '6':
+            session['zustand'] = 'ausreichend + (6 Punkte)'
+        elif request.form['zustand'] == '7':
+            session['zustand'] = 'befriedigend - (7 Punkte)'
+        elif request.form['zustand'] == '8':
+            session['zustand'] = 'befriedigend (8 Punkte)'
+        elif request.form['zustand'] == '9':
+            session['zustand'] = 'befriedigend + (9 Punkte)'
+        elif request.form['zustand'] == '10':
+            session['zustand'] = 'gut - (10 Punkte) – Weiter so!'
+        elif request.form['zustand'] == '11':
+            session['zustand'] = 'gut (11 Punkte) – Weiter so!'
+        elif request.form['zustand'] == '12':
+            session['zustand'] = 'gut + (12 Punkte) – Weiter so!'
+        elif request.form['zustand'] == '13':
+            session['zustand'] = 'sehr gut - (13 Punkte) – Weiter so!'
+        elif request.form['zustand'] == '14':
+            session['zustand'] = 'sehr gut (14 Punkte) – Weiter so!'                
         else:
-            session['zustand'] =  'ungenügend (6)'
+            session['zustand'] = 'sehr gut + (15 Punkte) – Weiter so!'
 
         # Die Werte der Details werden zunächst in eine Variablenliste geschrieben.
         if request.form.get('details0'):
@@ -113,6 +143,16 @@ def form():
             session['details'].append(session['details9'])
         if request.form.get('details10'):
             session['details'].append(session['details10'])
+        if request.form.get('details11'):
+            session['details'].append(session['details11'])
+        if request.form.get('details12'):
+            session['details'].append(session['details12'])
+        if request.form.get('details13'):
+            session['details'].append(session['details13'])
+        if request.form.get('details14'):
+            session['details'].append(session['details14'])
+        if request.form.get('details15'):
+            session['details'].append(session['details15'])                      
         if request.form.get('sonstiges'):
             session['details'].append(request.form.get('sonstiges'))
 
@@ -122,7 +162,13 @@ def form():
 @app.route('/preview', methods=['GET', 'POST'])
 def preview():
     if request.method == 'POST':
-        daten = [session['parzelle'], session['dach'], session['zustand'], datum]
+        # Kopfzeile für Jahresdatenbank
+        header = ['Parzelle', 'Dachfläche', 'Strom', 'Zustand (Note)', 'Datum', 'Bewertungsdetails']
+        if os.path.isfile(file) == False:
+            with open(file, 'w', encoding='UTF8') as f:
+                writer = csv.writer(f, delimiter=";")
+                writer.writerow(header)
+        daten = [session['parzelle'], session['dach'], session['strom'], session['zustand'], session['datum']]
         detailliste = session['details']
         daten.append(detailliste)
         with open(file, 'a', encoding='UTF8') as f:
@@ -138,7 +184,11 @@ def preview():
 
 @app.route("/done", methods=['GET'])
 def done():
-    session.clear()
+    session.pop('details', default=None)
+    session.pop('datum')
+    session.pop('dach')
+    session.pop('parzelle')
+    session.pop('strom')
     return render_template('done.html')
 
 @app.route('/pdfs')

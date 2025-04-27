@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+      {% block content %}
+
+      <div class="w3-container">
+        <form class="w3-container" method="post">
+          <p class="w3-large">
+            Gib hier bitte die Namen der Personen ein, die den Garten bewerten.
+            <br><br>
+            <input class="w3-input" type="text" style="width:300px" maxlength="30" name="name1" required="required">
+            <label class="w3-text-teal">Vorname und Nachname (1)</label>
+            <br><br>
+            <input class="w3-input" type="text" style="width:300px" maxlength="30" name="name2">
+            <label class="w3-text-teal">Vorname und Nachname (2, optional)</label>
+          </p>
+          <button class="w3-btn w3-teal" type="submit">Weiter</button>
+        </form>
+      </div>
+
+      {% endblock %}

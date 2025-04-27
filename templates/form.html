@@ -2,61 +2,90 @@
       {% block content %}
       <h2>Details zur Gartenbewertung</h2>
       <div class="w3-container">
+        <p class="w3-large">
+          Hallo {{session['name1']}}, gib hier die Details zur Gartenbewertung ein.
+          <br>
+          <a href="/name">Namen ändern</a>
+        </p>
+        <br>
+      <div class="w3-container">
 
           <form class="w3-container" method="post">
             <p class="w3-large">
-            <label class="w3-text-teal">Parzellennummer</label>
-            <input class="w3-input w3-border w3-light-grey" name="parzelle" type="number" style="width:100px" maxlength="4" required="required">
-            <br>
-            <label class="w3-text-teal">Dachfl&auml;che (ungef&auml;hr, in m²)</label>
-            <input class="w3-input w3-border w3-light-grey"  name="dach" type="number" style="width:100px" maxlength="4" required="required">
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details0">
-            <label class="w3-text-teal">{{session['details0']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details1">
-            <label class="w3-text-teal">{{session['details1']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details2">
-            <label class="w3-text-teal">{{session['details2']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details3">
-            <label class="w3-text-teal">{{session['details3']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details4">
-            <label class="w3-text-teal">{{session['details4']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details5">
-            <label class="w3-text-teal">{{session['details5']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details6">
-            <label class="w3-text-teal">{{session['details6']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details7">
-            <label class="w3-text-teal">{{session['details7']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details8">
-            <label class="w3-text-teal">{{session['details8']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details9">
-            <label class="w3-text-teal">{{session['details9']}}</label>
-            <br><br>
-            <input class="w3-check w3-teal" type="checkbox" name="details10">
-            <label class="w3-text-teal">{{session['details10']}}</label>
-            <br><br>
-            <input class="w3-input" type="text" name="sonstiges">
-            <label class="w3-text-teal">Sonstiges</label>
-            <br><br>
-            <label class="w3-text-teal"><b>Schulnote f&uuml;r den gesamten Garten: <span id="note" class="w3-xlarge"></span></b></label>
-            <br>
-            <label class="w3-text-teal">(Bewege den Slider von 1 f&uuml;r "sehr gut" bis 6 f&uuml;r "ungen&uuml;gend")</label>
-            <br><br>
-            <div class="slidecontainer">
-              <input type="range" min="1" max="6" value="1" class="slider" id="zustand" name="zustand" required="required"s>
-            </div>
-
-            <br><br>
-            <button class="w3-btn w3-teal" type="submit">Vorschau</button>
+              <label class="w3-text-teal">Parzellennummer</label>
+              <input class="w3-input w3-border w3-light-grey" name="parzelle" type="number" style="width:100px" maxlength="4" required="required">
+              <br>
+              <label class="w3-text-teal">Dachfl&auml;che (ungef&auml;hr, in m²)</label>
+              <input class="w3-input w3-border w3-light-grey"  name="dach" type="number" style="width:100px" maxlength="4" required="required">  
+              <br>            
+              <label class="w3-text-teal">Stromz&auml;hlerstand (in kwh)</label>
+              <input class="w3-input w3-border w3-light-grey"  name="strom" type="number" style="width:100px" maxlength="4">
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details0">
+              <label class="w3-text-teal">{{session['details0']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details1">
+              <label class="w3-text-teal">{{session['details1']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details2">
+              <label class="w3-text-teal">{{session['details2']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details3">
+              <label class="w3-text-teal">{{session['details3']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details4">
+              <label class="w3-text-teal">{{session['details4']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details5">
+              <label class="w3-text-teal">{{session['details5']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details6">
+              <label class="w3-text-teal">{{session['details6']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details7">
+              <label class="w3-text-teal">{{session['details7']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details8">
+              <label class="w3-text-teal">{{session['details8']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details9">
+              <label class="w3-text-teal">{{session['details9']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details10">
+              <label class="w3-text-teal">{{session['details10']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details11">
+              <label class="w3-text-teal">{{session['details11']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details12">
+              <label class="w3-text-teal">{{session['details12']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details13">
+              <label class="w3-text-teal">{{session['details13']}}</label>
+              <br><br>
+              <input class="w3-check w3-teal" type="checkbox" name="details14">
+              <label class="w3-text-teal">{{session['details14']}}</label>
+              <br><br>              
+              <input class="w3-input" type="text" name="sonstiges">
+              <label class="w3-text-teal">Sonstiges</label>
+              <br><br>
+              <label class="w3-text-teal"><b>Schulnotenpunkte f&uuml;r den gesamten Garten: <span id="note" class="w3-xlarge"></span></b></label>
+              <br>
+              <label class="w3-text-teal">Vergieb mit dem Schiebregler zwischen 0 und 15 Schulnotenpunkte:</label><br>
+              <label class="w3-text-teal">
+                (0 = "ungenügend")<br>
+                (1, 2, 3 = "mangelhaft")<br>
+                (4, 5, 6 = "ausreichend")<br>
+                (7, 8, 9 = "befriedigend")<br>
+                (10, 11, 12 = "gut")<br>
+                (13, 14, 15 = "sehr gut")<br>
+              </label>              
+              <br>
+              <div class="slidecontainer">
+                <input type="range" min="0" max="15" value="5" class="slider" id="zustand" name="zustand" required="required"s>
+              </div>
+              <br><br>
+              <button class="w3-btn w3-teal" type="submit">Vorschau</button>
             </p>
             </form>
 
