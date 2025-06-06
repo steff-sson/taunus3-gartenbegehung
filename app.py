@@ -200,7 +200,8 @@ def preview():
                 writer = csv.writer(f, delimiter=";")
                 writer.writerow(header)
         daten = [session['datum'], session['parzelle'], session['bewertung'], session['dach'], session['strom']]
-        detailliste = session['verstoss']
+        verstossliste = session['verstoss']
+        daten.append(verstossliste)
         detailliste = session['details']        
         daten.append(detailliste)
         with open(file, 'a', encoding='UTF8') as f:
