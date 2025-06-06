@@ -194,7 +194,7 @@ def form():
 def preview():
     if request.method == 'POST':
         # Kopfzeile für Jahresdatenbank
-        header = ['Datum', 'Parzelle', 'Bewertung', 'Dach', 'Strom', 'Dachfläche', 'Verstösse', 'Details']
+        header = ['Datum', 'Parzelle', 'Bewertung', 'Dach', 'Strom', 'Verstösse', 'Details']
         if os.path.isfile(file) == False:
             with open(file, 'w', encoding='UTF8') as f:
                 writer = csv.writer(f, delimiter=";")
