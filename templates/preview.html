@@ -12,32 +12,40 @@
             <form method="post">
               <button class="w3-btn w3-teal" type="submit" onclick="loading();">Bewertung speichern & PDF erstellen!</button>
             </form>
-            <h2>VORSCHAU: Bewertung deines Gartens</h2>
-            <p class="w3-large">
-              <b>Parzelle: {{session['parzelle']}}</b>
-            </p>
-            <p class="w3-large">
-              Die <b>Dachfl&auml;che</b> deines Gartens betr&auml;gt <b>{{session['dach']}} m²</b> – erlaubt sind nach Bundeskleingartengesetz, § 3 <b>maximal 24 m²</b>.
-            </p>
-            <h4>Schulnote: <b>{{session['zustand']}}</b></h4>
-          </div>
+            
+            <h3>{{session['bewertung']}}</h3>
+              <p>
+                Liebe Gartenfreundin/lieber Gartenfreund der Parzelle Nr. {{session['parzelle']}},<br>
+                am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. alle G&auml;rten der Anlage angesehen und bewertet.
+              </p>
+              <!--<h3>Schulnote: <b>{{session['zustand']}}</b></h3>-->
+              <p>
+                {{session['bewertungstext']}}
+              </p>
 
-          <div class="w3-row">
-
-              <h3><b>Details zum Zustand deines Gartens:</b></h3>
-
-                {%for item in session['details']%}
-                    <li class="w3-large">{{item}}</li>
-
+              <h4> Festgestellte Verstöße gegen die Vorschriften zur kleingärtnerischen Nutzung:</h4>      
+                {%for item in session['verstoss']%}
+                  <li class="w3-medium">{{item}}</li>
                 {% endfor %}
 
+              <h4>Weitere Hinweise zum Zustand deines Gartens:</h4> 
+                <b>Die Dachfl&auml;che deines Gartens betr&auml;gt {{session['dach']}} m²</b> –  erlaubt sind nach Bundeskleingartengesetz, § 3 <b>maximal 24 m².</b>
                 <br><br>
-                <p class="w3-large">
-                  Deinen Garten bewerteten:<br>
-                  <li class="w3-large">{{session['name1']}}</li>
-                  <li class="w3-large">{{session['name2']}}</li>
-                </p>
-                <br>
+
+                {%for item in session['details']%}
+                  <li class="w3-medium">{{item}}</li>
+                {% endfor %}
+
+              <br>
+
+              <h5>Hinweise zur Bewertung</h5>
+              <p class="w3-small">Gemäß § 8 Abs. 1 BKleingG ist die Parzelle kleingärtnerisch zu nutzen, insbesondere zur Gewinnung von Gartenbauerzeugnissen für den Eigenbedarf und zur Erholung. Ein Drittel der Parzellenfläche muss demnach für den Anbau von Obst und/oder Gemüse verwendet werden. Nichteinhaltung wirkt sich negativ auf unsere Gemeinnützigkeit aus und kann zu deutlich höheren Abgaben führen. Der Vorstand sieht sich daher verpflichtet dafür zu sorgen, dass die Vorschriften des Bundeskleingartengesetzes eingehalten werden.</p>
+
+              <h5>Deinen Garten bewerteten:</h5>      
+              <p class="w3-medium">
+                {{session['name1']}}, {{session['name2']}}
+              </p>
+
             <a href="javascript:history.back()"><b>Zur&uuml;ck & bearbeiten</b></a>
             <br>
             <br>

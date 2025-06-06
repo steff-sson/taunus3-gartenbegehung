@@ -55,15 +55,25 @@ def name():
 
 @app.route('/form', methods=['GET', 'POST'])
 def form():
-    # Variablen werden erstellt, bleiben aber leer.
+    # Variablen mit Verstoessen 
+    # Variable wird erstellt, bleibt aber leer
+    session['verstoss'] = []
+    # Elemente der Variable werden erstellt
+    session['verstoss0'] = 'Keine Verstöße vorhanden.'
+    session['verstoss1'] = 'Neue oder nicht genehmigte An- und Ausbauten vorhanden. Die Dachfläche ist zu groß und muss verkleinert werden.'
+    session['verstoss2'] = 'Zu wenig Anbaufläche (kann z.B. durch die Umwandlung von Rasenfläche in Beete vergrößert werden, siehe Hinweise).'
+    session['verstoss3'] = 'Gärtnerische Nutzung ist nicht erkennbar. (siehe Hinweise)'
+    session['verstoss4'] = 'Invasive Pflanzen, die sich negativ auf Nachbargarten ausbreiten.'
+    # Variable wird erstellt, bleibt aber leer.
+    # Variablen mit Details zur Gartenbewertung
     session['details'] = []
-        # Variablen mit Details zur Gartenbewertung
+    # Elemente der Variable werden erstellt
     session['details0'] = 'Der Garten ist insgesamt in einem guten Zustand. Weiter so!'
     session['details1'] = 'Kein Stromzählerstand erfasst. Bitte den Stromzählerstand mit Foto an vorstand@taunus3.de übermitteln.'
     session['details2'] = 'Die Dachfläche ist zu groß. Die Dachfläche muss bei Abgabe des Gartens verkleinert werden.'
-    session['details3'] = 'Gärtnerische Nutzung ist nicht erkennbar.'
+    session['details3'] = 'Bitte die Parzellennummer sichtbar anbringen.'
     session['details4'] = 'In dem Garten lagert Unrat/Müll.'
-    session['details5'] = 'Der Garten liegt – in Teilen – brach.'
+    session['details5'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten.'
     session['details6'] = 'Hecke im Garten ist zu hoch (zulässige Höhe: 120cm)'
     session['details7'] = 'Hecke an der Außengrenze ist zu hoch (zulässige Höhe: 180cm)'
     session['details8'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten.'
@@ -73,7 +83,7 @@ def form():
     session['details12'] = 'Der Garten enthält kranke Gehölze/Bäume. Diese sind zu entfernen!'
     session['details13'] = 'Die Menge der gelagerten planzlichen Abfälle übersteigt das erlaubte Maß.'
     session['details14'] = 'Kein Kompost vorhanden.'    
-    session['details15'] = 'Bitte die Parzellennummer sichtbar anbringen.'    
+    # session['details15'] = ''    
     if request.method == 'POST':
         # Datum des Eintrages festlegen
         today = date.today()
@@ -86,7 +96,17 @@ def form():
         session['dach'] = request.form['dach']
         # Der Wert der Dachfläche wird direkt in die Session geschrieben
         session['strom'] = request.form['strom']
+        # Der Wert 'Abmahnung' oder 'Bewerung' wird in die Session geschrieben
+        session['bewertung'] = request.form['bewertung']
+        #
+        if request.form['bewertung'] == 'Bewertung':
+            session['bewertungstext'] = 'Weitere Details zu der Bewertung deines Gartens findest du unten.'
+        else:
+            session['bewertungstext'] = 'Hiermit mahnen wir Sie gemäß § 9 Abs. 1 Bundeskleingartengesetz ab, da Sie die Vorschriften zur Kleingärtnerischen Nutzung nicht einhalten. Wir fordern Sie auf, die unten genannten Verstöße bis zum 27.7.2025 zu beseitigen und die Erledigung mit Foto per E-Mail an vorstand@taunus3.de nachzuweisen. Bei Nichteinhaltung dieser Frist behalten wir uns weitere rechtliche Schritte einschließlich der Kündigung des Pachtvertrages gemäß § 9 BKleingG vor.'
+        # Schulnoten-Slider wurde 2025 entfernt, da Schulnoten zu subjektiv und ggf. irrefuehrend sind!
+        #
         # Der Wert des Schulnoten-Sliders werden direkt in die Session gespeichert.
+        """
         if request.form['zustand'] == '0':
             session['zustand'] = 'ungenügend (0 Punkte)'
         elif request.form['zustand'] == '1':
@@ -119,8 +139,10 @@ def form():
             session['zustand'] = 'sehr gut (14 Punkte) – Weiter so!'                
         else:
             session['zustand'] = 'sehr gut + (15 Punkte) – Weiter so!'
-
-        # Die Werte der Details werden zunächst in eine Variablenliste geschrieben.
+        """
+        # ENDE des Schulnoten-Sliders
+        #
+        # Die Werte der Details und Verstoesse werden zunächst in eine Variablenliste geschrieben.
         if request.form.get('details0'):
             session['details'].append(session['details0'])
         if request.form.get('details1'):
@@ -155,7 +177,16 @@ def form():
             session['details'].append(session['details15'])                      
         if request.form.get('sonstiges'):
             session['details'].append(request.form.get('sonstiges'))
-
+        if request.form.get('verstoss0'):
+            session['verstoss'].append(session['verstoss0'])
+        if request.form.get('verstoss1'):
+            session['verstoss'].append(session['verstoss1'])           
+        if request.form.get('verstoss2'):
+            session['verstoss'].append(session['verstoss2'])
+        if request.form.get('verstoss3'):
+            session['verstoss'].append(session['verstoss3'])
+        if request.form.get('verstoss4'):
+            session['verstoss'].append(session['verstoss4'])           
         return redirect(url_for('preview'))
     return render_template('form.html')
 
@@ -163,13 +194,14 @@ def form():
 def preview():
     if request.method == 'POST':
         # Kopfzeile für Jahresdatenbank
-        header = ['Parzelle', 'Dachfläche', 'Strom', 'Zustand (Note)', 'Datum', 'Bewertungsdetails']
+        header = ['Datum', 'Parzelle', 'Bewertung', 'Dach', 'Strom', 'Dachfläche', 'Verstösse', 'Details']
         if os.path.isfile(file) == False:
             with open(file, 'w', encoding='UTF8') as f:
                 writer = csv.writer(f, delimiter=";")
                 writer.writerow(header)
-        daten = [session['parzelle'], session['dach'], session['strom'], session['zustand'], session['datum']]
-        detailliste = session['details']
+        daten = [session['datum'], session['parzelle'], session['bewertung'], session['dach'], session['strom']]
+        detailliste = session['verstoss']
+        detailliste = session['details']        
         daten.append(detailliste)
         with open(file, 'a', encoding='UTF8') as f:
             writer = csv.writer(f, delimiter=";")
@@ -185,6 +217,7 @@ def preview():
 @app.route("/done", methods=['GET'])
 def done():
     session.pop('details', default=None)
+    session.pop('verstoss', default=None)
     session.pop('datum')
     session.pop('dach')
     session.pop('parzelle')

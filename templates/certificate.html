@@ -2,40 +2,50 @@
       {% block content %}
 
       <p>{{session['datum']}}</p>
-      <h1>Begehung deines Gartens</h1>
+      <h1>Gartenbegehung</h1>      
       <p>
         <b>Parzelle: {{session['parzelle']}}</b>
       </p>
+      <h3>{{session['bewertung']}}</h3>
       <p>
-        Lieber Gartenfreund, liebe Gartenfreundin. Am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. alle G&auml;rten der Anlage angesehen und bewertet, ebenso haben wir die Dachfl&auml;che berechnet: <b>Die Dachfl&auml;che deines Gartens betr&auml;gt {{session['dach']}} m²</b> –  erlaubt sind nach Bundeskleingartengesetz, § 3 <b>maximal 24 m²</b>. Der Vorstand hat zur einfachen &Uuml;bersicht Schulnoten zur Bewertung vergeben. Weitere Details zu der Bewertung deines Gartens findest du unten.
+        Liebe Gartenfreundin/lieber Gartenfreund der Parzelle Nr. {{session['parzelle']}},<br>
+        am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. alle G&auml;rten der Anlage angesehen und bewertet.
       </p>
-      <h3>Schulnote: <b>{{session['zustand']}}</b></h3>
+      <!--<h3>Schulnote: <b>{{session['zustand']}}</b></h3>-->
+      <p>
+        {{session['bewertungstext']}}
+      </p>
 
-      <h2>Details zum Zustand deines Gartens:</h2>
+      <h4> Festgestellte Verstöße gegen die Vorschriften zur kleingärtnerischen Nutzung:</h4>      
+        {%for item in session['verstoss']%}
+          <li class="w3-medium">{{item}}</li>
+        {% endfor %}
+
+      <h4>Weitere Hinweise zum Zustand deines Gartens:</h4> 
+         <b>Die Dachfl&auml;che deines Gartens betr&auml;gt {{session['dach']}} m²</b> –  erlaubt sind nach Bundeskleingartengesetz, § 3 <b>maximal 24 m².</b>
+        <br><br>
 
         {%for item in session['details']%}
-          <li class="w3-large">{{item}}</li>
+          <li class="w3-medium">{{item}}</li>
         {% endfor %}
 
       <br>
-      <p class="w3-large">
-        Deinen Garten bewerteten:<br>
-        <li class="w3-medium">{{session['name1']}}</li>
-        <li class="w3-medium">{{session['name2']}}</li>
+
+      <h5>Hinweise zur Bewertung</h5>
+      <p class="w3-small">Gemäß § 8 Abs. 1 BKleingG ist die Parzelle kleingärtnerisch zu nutzen, insbesondere zur Gewinnung von Gartenbauerzeugnissen für den Eigenbedarf und zur Erholung. Ein Drittel der Parzellenfläche muss demnach für den Anbau von Obst und/oder Gemüse verwendet werden. Nichteinhaltung wirkt sich negativ auf unsere Gemeinnützigkeit aus und kann zu deutlich höheren Abgaben führen. Der Vorstand sieht sich daher verpflichtet dafür zu sorgen, dass die Vorschriften des Bundeskleingartengesetzes eingehalten werden.</p>
+
+      <h5>Deinen Garten bewerteten:</h5>      
+      <p class="w3-medium">
+        {{session['name1']}}, {{session['name2']}}
       </p>
-      <br><br>
-      <div class="w3-container">
-        <p>Wir wünschen dir ein schönes Gartenjahr! Bei Rückfragen kannst du dich jederzeit per E-Mail an uns wenden: <b>vorstand@taunus3.de</b> </p>
-      <b>Dein Gartenvorstand</b>
-      <br>
-      <div class="w3-small w3-text-teal">
-        <li class=>Barbara Lange (Vorsitzende)</li>
-        <li>Stefan Weitzel (Zweiter Vorsitzender)</li>
-        <li>Lars K&uuml;ber (Gartenwart)</li>
-        <li>Andreas Lange (Kassierer)</li>
-        <li>Martin Schulte (Beisitzer)</li>
-        <li>Frauke Behrend (Kantinenbeauftragte)</li>
-        <li>Brigitte Klass (Schriftführung)</li>
-      </div>
+
+      <p class="w3-small">
+        Wir wünschen dir ein schönes Gartenjahr! Bei Rückfragen kannst du dich jederzeit per E-Mail an uns wenden: <b>vorstand@taunus3.de</b>
+        <br><br>
+        <b>Dein Gartenvorstand</b>
+        <br>
+        <div class="w3-small w3-text-teal">
+        Barbara Lange (Vorsitzende), Stefan Weitzel (Zweiter Vorsitzender), Zdenko Antunovic (Gartenwart), Andreas Lange (Kassierer), Johannes Weigel (Beisitzer), Helen Yohannes (Kantinenbeauftragte), Brigitte Klass (Schriftführung)
+      </p>
 
       {% endblock %}
