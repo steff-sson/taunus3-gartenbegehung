@@ -66,7 +66,7 @@ def form():
     session['details4'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten. Bitte bis zum 27.07.2025 entfernen.'
     session['details5'] = 'Hecke im Garten ist zu hoch (zulässige Höhe: 120cm). Bitte bis zum 27.07.2025 kürzen.'
     session['details6'] = 'Hecke an der Außengrenze ist zu hoch (zulässige Höhe: 180cm). Bitte bis zum 27.07.2025 kürzen.'
-    session['details7'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten.'
+    session['details7'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten. Bitte bis zum 27.07.2025 entfernen.'
     session['details8'] = 'Äste, Zweige von Büschen und Bäumen ragen in die Gartenwege bzw. in Nachbargärten. Bitte bis zum 27.07.2025 entfernen.'
     session['details9'] = 'Der Garten enthält kranke Gehölze/Bäume. Bitte bis zum 27.07.2025 entfernen.'
     session['details10'] = 'Bitte die Parzellennummer sichtbar anbringen.' 
@@ -90,7 +90,7 @@ def form():
         if request.form['dachbauten'] == 'keine':
             session['dachbauten'] = 'Keine Anmerkungen. Bitte beachte, dass neue An- und Ausbauten, auch Vordachanbringung bzw. Vergrößerung, einer Zustimmung durch den Vorstand bedürfen.'
         elif request.form['dachbauten'] == 'ueberschreitet':
-            session['dachbauten'] = 'Die Laube/überdachte Fläche überschreitet die erlaubten 24 m². Das bedeutet: Keine neuen An- und Ausbauten, auch nicht Vordachanbringung bzw. Vergrößerung erlaubt! Bei Gartenrückgabe muss ggf. mit Rückbau auf das erlaubte Maß von 24m² gerechnet werden. Bei Fragen kannst Du Dich an den Vorstand wenden.'   
+            session['dachbauten'] = 'Die Laube/überdachte Fläche überschreitet die erlaubten 24 m². Das bedeutet: Keine neuen An- und Ausbauten, auch nicht Vordachanbringung bzw. Vergrößerung erlaubt! Bei Gartenrückgabe muss ggf. mit Rückbau auf das erlaubte Maß von 24 m² gerechnet werden. Bei Fragen kannst Du Dich an den Vorstand wenden.'   
         elif request.form['dachbauten'] == 'ueberschreitet_zustimmung':
             session['dachbauten'] = 'Die Laube/überdachte Fläche wurde ohne Zustimmung des Vorstandes vergrößert und überschreitet die erlaubten 24 m². Bitte bis zum 27.07.2025 auf das erlaubte Maß von 24 m² zurückbauen/die neue überdachte Fläche mit einer abnehmbaren Bedeckung bedecken und mit Fotos dem Vorstand (vorstand@taunus3.de) nachweisen. Bei Nichteinhaltung dieser Frist ist eine Abmahnung durch den Vorstand vorgesehen. Bei Fragen kannst Du Dich an den Vorstand wenden.'   
         else:
