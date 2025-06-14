@@ -55,35 +55,23 @@ def name():
 
 @app.route('/form', methods=['GET', 'POST'])
 def form():
-    # Variablen mit Verstoessen 
-    # Variable wird erstellt, bleibt aber leer
-    session['verstoss'] = []
-    # Elemente der Variable werden erstellt
-    session['verstoss0'] = 'Keine Verstöße vorhanden.'
-    session['verstoss1'] = 'Neue oder nicht genehmigte An- und Ausbauten vorhanden. Die Dachfläche ist zu groß und muss verkleinert werden.'
-    session['verstoss2'] = 'Zu wenig Anbaufläche (kann z.B. durch die Umwandlung von Rasenfläche in Beete vergrößert werden, siehe Hinweise).'
-    session['verstoss3'] = 'Gärtnerische Nutzung ist nicht erkennbar. (siehe Hinweise)'
-    session['verstoss4'] = 'Invasive Pflanzen, die sich negativ auf Nachbargarten ausbreiten.'
     # Variable wird erstellt, bleibt aber leer.
     # Variablen mit Details zur Gartenbewertung
     session['details'] = []
     # Elemente der Variable werden erstellt
     session['details0'] = 'Der Garten ist insgesamt in einem guten Zustand. Weiter so!'
-    session['details1'] = 'Kein Stromzählerstand erfasst. Bitte den Stromzählerstand mit Foto an vorstand@taunus3.de übermitteln.'
-    session['details2'] = 'Die Dachfläche ist zu groß. Die Dachfläche muss bei Abgabe des Gartens verkleinert werden.'
-    session['details3'] = 'Bitte die Parzellennummer sichtbar anbringen.'
-    session['details4'] = 'In dem Garten lagert Unrat/Müll.'
-    session['details5'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten.'
-    session['details6'] = 'Hecke im Garten ist zu hoch (zulässige Höhe: 120cm)'
-    session['details7'] = 'Hecke an der Außengrenze ist zu hoch (zulässige Höhe: 180cm)'
-    session['details8'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten.'
-    session['details9'] = 'Der Unkrautwuchs hat nachteilige Auswirkungen (z.B. Samenflug) auf die Nachbargärten.'
-    session['details10'] = 'Die Gartenwege sind zu stark mit Unkraut bewachsen.'
-    session['details11'] = 'Äste, Zweige von Büschen und Bäumen ragen in die Gartenwege bzw. in Nachbargärten.'
-    session['details12'] = 'Der Garten enthält kranke Gehölze/Bäume. Diese sind zu entfernen!'
-    session['details13'] = 'Die Menge der gelagerten planzlichen Abfälle übersteigt das erlaubte Maß.'
-    session['details14'] = 'Kein Kompost vorhanden.'    
-    # session['details15'] = ''    
+    session['details1'] = 'Kein Stromzählerstand erfasst. Bitte den Stromzählerstand bis zum 27.07.2025 mit Foto an vorstand@taunus3.de übermitteln.'
+    session['details2'] = 'Kein Kompost vorhanden. Bitte bis zum 27.07.2025 einen Kompost anlegen.'  
+    session['details3'] = 'In dem Garten lagert Unrat/Müll. Bitte bis zum 27.07.2025 entfernen.'
+    session['details4'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten. Bitte bis zum 27.07.2025 entfernen.'
+    session['details5'] = 'Hecke im Garten ist zu hoch (zulässige Höhe: 120cm). Bitte bis zum 27.07.2025 kürzen.'
+    session['details6'] = 'Hecke an der Außengrenze ist zu hoch (zulässige Höhe: 180cm). Bitte bis zum 27.07.2025 kürzen.'
+    session['details7'] = 'Sichtschutz, der nicht aus Pflanzen besteht, ist verboten.'
+    session['details8'] = 'Äste, Zweige von Büschen und Bäumen ragen in die Gartenwege bzw. in Nachbargärten. Bitte bis zum 27.07.2025 entfernen.'
+    session['details9'] = 'Der Garten enthält kranke Gehölze/Bäume. Bitte bis zum 27.07.2025 entfernen.'
+    session['details10'] = 'Bitte die Parzellennummer sichtbar anbringen.' 
+    #
+    # Variablen werden nun in die Session geschrieben
     if request.method == 'POST':
         # Datum des Eintrages festlegen
         today = date.today()
@@ -96,13 +84,38 @@ def form():
         session['dach'] = request.form['dach']
         # Der Wert der Dachfläche wird direkt in die Session geschrieben
         session['strom'] = request.form['strom']
-        # Der Wert 'Abmahnung' oder 'Bewerung' wird in die Session geschrieben
-        session['bewertung'] = request.form['bewertung']
+        # Der Wert 'Dachbauten' wird in die Session geschrieben
+        session['dachbauten'] = request.form['dachbauten']
         #
-        if request.form['bewertung'] == 'Bewertung':
-            session['bewertungstext'] = 'Weitere Details zu der Bewertung deines Gartens findest du unten.'
+        if request.form['dachbauten'] == 'keine':
+            session['dachbauten'] = 'Keine Anmerkungen. Bitte beachte, dass neue An- und Ausbauten, auch Vordachanbringung bzw. Vergrößerung, einer Zustimmung durch den Vorstand bedürfen.'
+        elif request.form['dachbauten'] == 'ueberschreitet':
+            session['dachbauten'] = 'Die Laube/überdachte Fläche überschreitet die erlaubten 24 m². Das bedeutet: Keine neuen An- und Ausbauten, auch nicht Vordachanbringung bzw. Vergrößerung erlaubt! Bei Gartenrückgabe muss ggf. mit Rückbau auf das erlaubte Maß von 24m² gerechnet werden. Bei Fragen kannst Du Dich an den Vorstand wenden.'   
+        elif request.form['dachbauten'] == 'ueberschreitet_zustimmung':
+            session['dachbauten'] = 'Die Laube/überdachte Fläche wurde ohne Zustimmung des Vorstandes vergrößert und überschreitet die erlaubten 24 m². Bitte bis zum 27.07.2025 auf das erlaubte Maß von 24 m² zurückbauen/die neue überdachte Fläche mit einer abnehmbaren Bedeckung bedecken und mit Fotos dem Vorstand (vorstand@taunus3.de) nachweisen. Bei Nichteinhaltung dieser Frist ist eine Abmahnung durch den Vorstand vorgesehen. Bei Fragen kannst Du Dich an den Vorstand wenden.'   
         else:
-            session['bewertungstext'] = 'Hiermit mahnen wir Sie gemäß § 9 Abs. 1 Bundeskleingartengesetz ab, da Sie die Vorschriften zur Kleingärtnerischen Nutzung nicht einhalten. Wir fordern Sie auf, die unten genannten Verstöße bis zum 27.7.2025 zu beseitigen und die Erledigung mit Foto per E-Mail an vorstand@taunus3.de nachzuweisen. Bei Nichteinhaltung dieser Frist behalten wir uns weitere rechtliche Schritte einschließlich der Kündigung des Pachtvertrages gemäß § 9 BKleingG vor.'
+            session['dachbauten'] = 'Die Laube/überdachte Fläche wurde ohne Zustimmung des Vorstandes vergrößert und überschreitet die erlaubten 24 m². Wir mahnen Sie ab und setzen Ihnen eine Frist bis zum 27.07.2025, um den die Laube/überdachte Fläche auf das erlaubte Maß von 24 m² zurückzubauen.'
+        #
+        # Der Wert 'Drittelung' wird in die Session geschrieben
+        session['drittelung'] = request.form['drittelung']
+        #
+        if request.form['drittelung'] == 'keine':
+            session['drittelung'] = 'Keine Anmerkungen. Bitte achte auch weiterhin auf die Einhaltung der Drittelung (ein Drittel der Gartenfläche muss für den Anbau genutzt werden).'
+        elif request.form['drittelung'] == 'drittelung':
+            session['drittelung'] = 'Der Garten weist keine Drittelung auf (ein Drittel der Gartenfläche muss für den Anbau genutzt werden). Um einer Abmahnung vorzubeugen bitte bis zum 27.07.2025 die Anbaufläche auf ein Drittel vergrößern (z.B. durch die Umwandlung von Rasenfläche in Beete) und mit Fotos dem Vorstand (vorstand@taunus3.de) nachweisen.'   
+        else:
+            session['drittelung'] = 'Der Garten weist keine kleingärtnerische Nutzung auf. Es ist insbesondere keine Drittelung erkennbar (ein Drittel der Gartenfläche muss für den Anbau genutzt werden) / Der Garten wirkt verwildert oder verwahrlost. Wir mahnen Sie ab und setzen Ihnen eine Frist bis zum 27.07.2025, um den negativen Zustand zu beheben.'
+        #
+        # Der Wert 'Unkraut' wird in die Session geschrieben
+        session['unkraut'] = request.form['unkraut']
+        #
+        if request.form['unkraut'] == 'keine':
+            session['unkraut'] = 'Keine Anmerkungen. Bitte achte auch weiterhin darauf, Unkraut mit Samenflug sowie invasive Pflanzen, die sich negativ auf Nachbargarten ausbreiten, regelmäßig zu entfernen.'
+        elif request.form['unkraut'] == 'unkraut':
+            session['unkraut'] = 'Der Garten weist Unkraut mit Samenflug bzw. invasive Pflanzen, die sich negativ auf Nachbargarten ausbreiten, auf. Um einer Abmahnung vorzubeugen bitte bis 27.07.2025 Unkraut mit Samenflug bzw. invasive Pflanzen entfernen und dies mit Fotos dem Vorstand (vorstand@taunus3.de) nachweisen.'   
+        else:
+            session['unkraut'] = 'Der Garten weist Unkraut mit Samenflug bzw. invasive Pflanzen, die sich negativ auf Nachbargarten ausbreiten, auf. Wir mahnen Sie ab und setzen Ihnen eine Frist bis zum 27.07.2025, um den negativen Zustand zu beheben.'
+        #    
         # Schulnoten-Slider wurde 2025 entfernt, da Schulnoten zu subjektiv und ggf. irrefuehrend sind!
         #
         # Der Wert des Schulnoten-Sliders werden direkt in die Session gespeichert.
@@ -164,29 +177,7 @@ def form():
         if request.form.get('details9'):
             session['details'].append(session['details9'])
         if request.form.get('details10'):
-            session['details'].append(session['details10'])
-        if request.form.get('details11'):
-            session['details'].append(session['details11'])
-        if request.form.get('details12'):
-            session['details'].append(session['details12'])
-        if request.form.get('details13'):
-            session['details'].append(session['details13'])
-        if request.form.get('details14'):
-            session['details'].append(session['details14'])
-        if request.form.get('details15'):
-            session['details'].append(session['details15'])                      
-        if request.form.get('sonstiges'):
-            session['details'].append(request.form.get('sonstiges'))
-        if request.form.get('verstoss0'):
-            session['verstoss'].append(session['verstoss0'])
-        if request.form.get('verstoss1'):
-            session['verstoss'].append(session['verstoss1'])           
-        if request.form.get('verstoss2'):
-            session['verstoss'].append(session['verstoss2'])
-        if request.form.get('verstoss3'):
-            session['verstoss'].append(session['verstoss3'])
-        if request.form.get('verstoss4'):
-            session['verstoss'].append(session['verstoss4'])           
+            session['details'].append(session['details10'])                
         return redirect(url_for('preview'))
     return render_template('form.html')
 
@@ -194,14 +185,12 @@ def form():
 def preview():
     if request.method == 'POST':
         # Kopfzeile für Jahresdatenbank
-        header = ['Datum', 'Parzelle', 'Bewertung', 'Dach', 'Strom', 'Verstösse', 'Details']
+        header = ['Datum', 'Parzelle', 'Dach', 'Strom', 'Dachbauten', 'Drittelung', 'Unkraut','Details']
         if os.path.isfile(file) == False:
             with open(file, 'w', encoding='UTF8') as f:
                 writer = csv.writer(f, delimiter=";")
                 writer.writerow(header)
-        daten = [session['datum'], session['parzelle'], session['bewertung'], session['dach'], session['strom']]
-        verstossliste = session['verstoss']
-        daten.append(verstossliste)
+        daten = [session['datum'], session['parzelle'], session['dach'], session['strom'], session['dachbauten'], session['drittelung'], session['unkraut']]
         detailliste = session['details']        
         daten.append(detailliste)
         with open(file, 'a', encoding='UTF8') as f:

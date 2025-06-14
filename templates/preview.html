@@ -11,40 +11,47 @@
             <p>{{session['datum']}}</p>
             <form method="post">
               <button class="w3-btn w3-teal" type="submit" onclick="loading();">Bewertung speichern & PDF erstellen!</button>
-            </form>
+            </form>            
             
-            <h3>{{session['bewertung']}}</h3>
-              <p>
-                Liebe Gartenfreundin/lieber Gartenfreund der Parzelle Nr. {{session['parzelle']}},<br>
-                am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. alle G&auml;rten der Anlage angesehen und bewertet.
-              </p>
-              <!--<h3>Schulnote: <b>{{session['zustand']}}</b></h3>-->
-              <p>
-                {{session['bewertungstext']}}
-              </p>
+            <h1>Gartenbegehung</h1>      
+            <p>
+              <b>Parzelle: {{session['parzelle']}}</b>
+              <br>            
+              Liebe Gartenfreundin/lieber Gartenfreund der Parzelle Nr. {{session['parzelle']}},<br>
+              am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. bei der jährlichen Gartenbegehung alle G&auml;rten der Anlage angesehen.
+            </p>
+            <!--<h3>Schulnote: <b>{{session['zustand']}}</b></h3>-->      
 
-              <h4> Festgestellte Verstöße gegen die Vorschriften zur kleingärtnerischen Nutzung:</h4>      
-                {%for item in session['verstoss']%}
-                  <li class="w3-medium">{{item}}</li>
-                {% endfor %}
+            <h4>Bebauung/überdachte Fläche</h4>      
+            <p>
+              Die Laube/überdachte Fläche beträgt {{session['dach']}} m². {{session['dachbauten']}}
+            </p>  
 
-              <h4>Weitere Hinweise zum Zustand deines Gartens:</h4> 
-                <b>Die Dachfl&auml;che deines Gartens betr&auml;gt {{session['dach']}} m²</b> –  erlaubt sind nach Bundeskleingartengesetz, § 3 <b>maximal 24 m².</b>
-                <br><br>
+            <h4>Drittelung/Gartenzustand</h4> 
+            <p>
+              {{session['drittelung']}}
+            </p>
 
-                {%for item in session['details']%}
-                  <li class="w3-medium">{{item}}</li>
-                {% endfor %}
+            <h4>Unkraut/Invasive Pflanzen</h4> 
+            <p>
+              {{session['unkraut']}}
+            </p>
 
-              <br>
+            <h4>Sonstiges</h4> 
 
-              <h5>Hinweise zur Bewertung</h5>
-              <p class="w3-small">Gemäß § 8 Abs. 1 BKleingG ist die Parzelle kleingärtnerisch zu nutzen, insbesondere zur Gewinnung von Gartenbauerzeugnissen für den Eigenbedarf und zur Erholung. Ein Drittel der Parzellenfläche muss demnach für den Anbau von Obst und/oder Gemüse verwendet werden. Nichteinhaltung wirkt sich negativ auf unsere Gemeinnützigkeit aus und kann zu deutlich höheren Abgaben führen. Der Vorstand sieht sich daher verpflichtet dafür zu sorgen, dass die Vorschriften des Bundeskleingartengesetzes eingehalten werden.</p>
+              {%for item in session['details']%}
+                <li class="w3-medium">{{item}}</li>
+              {% endfor %}
 
-              <h5>Deinen Garten bewerteten:</h5>      
-              <p class="w3-medium">
-                {{session['name1']}}, {{session['name2']}}
-              </p>
+            <br>
+
+            <h5>Hinweise zur Bewertung</h5>
+            <p class="w3-small">Gemäß § 8 Abs. 1 BKleingG ist die Parzelle kleingärtnerisch zu nutzen, insbesondere zur Gewinnung von Gartenbauerzeugnissen für den Eigenbedarf und zur Erholung. Ein Drittel der Parzellenfläche muss demnach für den Anbau von Obst und/oder Gemüse verwendet werden. Nichteinhaltung wirkt sich negativ auf unsere Gemeinnützigkeit aus und kann zu deutlich höheren Abgaben führen. Der Vorstand sieht sich daher verpflichtet dafür zu sorgen, dass die Vorschriften des Bundeskleingartengesetzes eingehalten werden.</p>
+
+            <h5>Deinen Garten haben angesehen:</h5>      
+            <p class="w3-medium">
+              {{session['name1']}}, {{session['name2']}}
+            </p>
 
             <a href="javascript:history.back()"><b>Zur&uuml;ck & bearbeiten</b></a>
             <br>

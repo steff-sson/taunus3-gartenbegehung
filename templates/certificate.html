@@ -5,25 +5,29 @@
       <h1>Gartenbegehung</h1>      
       <p>
         <b>Parzelle: {{session['parzelle']}}</b>
-      </p>
-      <h3>{{session['bewertung']}}</h3>
-      <p>
+      
         Liebe Gartenfreundin/lieber Gartenfreund der Parzelle Nr. {{session['parzelle']}},<br>
-        am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. alle G&auml;rten der Anlage angesehen und bewertet.
+        am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. bei der jährlichen Gartenbegehung alle G&auml;rten der Anlage angesehen.
       </p>
-      <!--<h3>Schulnote: <b>{{session['zustand']}}</b></h3>-->
+      <!--<h3>Schulnote: <b>{{session['zustand']}}</b></h3>-->      
+
+      <h4>Bebauung/überdachte Fläche</h4>      
       <p>
-        {{session['bewertungstext']}}
+        Die Laube/überdachte Fläche beträgt {{session['dach']}} m² und überschreitet damit die erlaubten 24 m².
+        {{session['dachbauten']}}
+      </p>  
+
+      <h4>Drittelung/Gartenzustand</h4> 
+      <p>
+        {{session['drittelung']}}
       </p>
 
-      <h4> Festgestellte Verstöße gegen die Vorschriften zur kleingärtnerischen Nutzung:</h4>      
-        {%for item in session['verstoss']%}
-          <li class="w3-medium">{{item}}</li>
-        {% endfor %}
+      <h4>Unkraut/Invasive Pflanzen</h4> 
+      <p>
+        {{session['unkraut']}}
+      </p>
 
-      <h4>Weitere Hinweise zum Zustand deines Gartens:</h4> 
-         <b>Die Dachfl&auml;che deines Gartens betr&auml;gt {{session['dach']}} m²</b> –  erlaubt sind nach Bundeskleingartengesetz, § 3 <b>maximal 24 m².</b>
-        <br><br>
+      <h4>Sonstiges</h4> 
 
         {%for item in session['details']%}
           <li class="w3-medium">{{item}}</li>
@@ -31,10 +35,10 @@
 
       <br>
 
-      <h5>Hinweise zur Bewertung</h5>
+      <h5>Allgemeiner Hinweis</h5>
       <p class="w3-small">Gemäß § 8 Abs. 1 BKleingG ist die Parzelle kleingärtnerisch zu nutzen, insbesondere zur Gewinnung von Gartenbauerzeugnissen für den Eigenbedarf und zur Erholung. Ein Drittel der Parzellenfläche muss demnach für den Anbau von Obst und/oder Gemüse verwendet werden. Nichteinhaltung wirkt sich negativ auf unsere Gemeinnützigkeit aus und kann zu deutlich höheren Abgaben führen. Der Vorstand sieht sich daher verpflichtet dafür zu sorgen, dass die Vorschriften des Bundeskleingartengesetzes eingehalten werden.</p>
 
-      <h5>Deinen Garten bewerteten:</h5>      
+      <h5>Deinen Garten haben angesehen:</h5>      
       <p class="w3-medium">
         {{session['name1']}}, {{session['name2']}}
       </p>

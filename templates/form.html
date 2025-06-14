@@ -21,29 +21,32 @@
               <label class="w3-text-teal">Stromz&auml;hlerstand (in kwh)</label>
               <input class="w3-input w3-border w3-light-grey"  name="strom" type="number" style="width:100px" maxlength="4">
               <br>
-              <h3>Verstöße</h3>
-              <input class="w3-check w3-teal" type="checkbox" name="verstoss0">
-              <label class="w3-text-teal">{{session['verstoss0']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="verstoss1">
-              <label class="w3-text-teal">{{session['verstoss1']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="verstoss2">
-              <label class="w3-text-teal">{{session['verstoss2']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="verstoss3">
-              <label class="w3-text-teal">{{session['verstoss3']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="verstoss4">
-              <label class="w3-text-teal">{{session['verstoss4']}}</label>
-              <br><br>
-              <label for="bewertung" class="w3-text-teal">Bewertungsart</label>
-              <select id="bewertung" name="bewertung">
-                <option value="Bewertung">Bewertung</option>
-                <option value="Abmahnung">Abmahnung</option>
-              </select>                
+              <h4>Bebauung/überdachte Fläche</h4>              
+              <select id="dachbauten" name="dachbauten">
+                <option value="keine">Keine Anmerkungen.</option>
+                <option value="ueberschreitet">Die Laube/überdachte Fläche überschreitet 24 m².</option>
+                <option value="ueberschreitet_zustimmung">Die Laube/überdachte Fläche wurde ohne Zustimmung des Vorstandes vergrößert und überschreitet 24 m².</option>
+                <option value="ueberschreitet_abmahnung">Abmahnung: Die Laube/überdachte Fläche wurde ohne Zustimmung des Vorstandes vergrößert und überschreitet 24 m².</option>
+              </select>
               <br>
-              <h3>Details</h3>              
+              
+              <h4>Drittelung/Gartenzustand</h4>             
+              <select id="drittelung" name="drittelung">
+                <option value="keine">Keine Anmerkungen.</option>
+                <option value="drittelung">Der Garten weist keine Drittelung auf.</option>
+                <option value="drittelung_abmahnung">Abmahnung: Der Garten weist keine kleingärtnerische Nutzung auf.</option>
+              </select>
+              <br>
+
+              <h4>Unkraut/Invasive Pflanzen</h4>             
+              <select id="unkraut" name="unkraut">
+                <option value="keine">Keine Anmerkungen.</option>
+                <option value="unraut">Der Garten weist Unkraut mit Samenflug bzw. invasive Pflanzen auf, die sich negativ auf Nachbargarten ausbreiten.</option>
+                <option value="unraut_abmahnung">Abmahnung: Der Garten weist Unkraut mit Samenflug bzw. invasive Pflanzen auf, die sich negativ auf Nachbargarten ausbreiten.</option>
+              </select>
+              <br>
+
+              <h3>Sonstiges</h3>              
               <input class="w3-check w3-teal" type="checkbox" name="details0">
               <label class="w3-text-teal">{{session['details0']}}</label>
               <br><br>
@@ -77,6 +80,7 @@
               <input class="w3-check w3-teal" type="checkbox" name="details10">
               <label class="w3-text-teal">{{session['details10']}}</label>
               <br><br>
+              <!--
               <input class="w3-check w3-teal" type="checkbox" name="details11">
               <label class="w3-text-teal">{{session['details11']}}</label>
               <br><br>
@@ -92,6 +96,7 @@
               <input class="w3-input" type="text" name="sonstiges">
               <label class="w3-text-teal">Sonstiges</label>
               <br><br>
+              -->
               <!--
               <label class="w3-text-teal"><b>Schulnotenpunkte f&uuml;r den gesamten Garten: <span id="note" class="w3-xlarge"></span></b></label>
               <br>
