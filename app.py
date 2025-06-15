@@ -70,6 +70,8 @@ def form():
     session['details8'] = 'Äste, Zweige von Büschen und Bäumen ragen in die Gartenwege bzw. in Nachbargärten. Bitte bis zum 27.07.2025 entfernen.'
     session['details9'] = 'Der Garten enthält kranke Gehölze/Bäume. Bitte bis zum 27.07.2025 entfernen.'
     session['details10'] = 'Bitte die Parzellennummer sichtbar anbringen.' 
+    session['details11'] = 'Der Hauptweg ist zu stark mit Unkraut bewachsen. Bitte bis zum 27.07.2025 entfernen.'
+
     #
     # Variablen werden nun in die Session geschrieben
     if request.method == 'POST':
@@ -178,6 +180,8 @@ def form():
             session['details'].append(session['details9'])
         if request.form.get('details10'):
             session['details'].append(session['details10'])
+        if request.form.get('details11'):
+            session['details'].append(session['details11'])    
         if request.form.get('weiteres'):
             session['details'].append(request.form.get('weiteres'))                    
         return redirect(url_for('preview'))
@@ -209,9 +213,11 @@ def preview():
 @app.route("/done", methods=['GET'])
 def done():
     session.pop('details', default=None)
-    session.pop('verstoss', default=None)
     session.pop('datum')
     session.pop('dach')
+    session.pop('dachbauten')
+    session.pop('unkraut')
+    session.pop('drittelung')
     session.pop('parzelle')
     session.pop('strom')
     return render_template('done.html')
