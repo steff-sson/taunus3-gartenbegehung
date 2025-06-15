@@ -178,8 +178,8 @@ def form():
             session['details'].append(session['details9'])
         if request.form.get('details10'):
             session['details'].append(session['details10'])
-        if request.form.get('details11'):
-            session['details'].append(session['details11'])                     
+        if request.form.get('weiteres'):
+            session['details'].append(request.form.get('weiteres'))                    
         return redirect(url_for('preview'))
     return render_template('form.html')
 
