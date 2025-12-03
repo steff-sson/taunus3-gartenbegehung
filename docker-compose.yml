@@ -1,0 +1,23 @@
+---
+services:
+  gartenbegehung:
+    image: DEIN-DOCKERHUB-USERNAME/gartenbegehung:latest
+    container_name: gartenbegehung
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - FLASK_ENV=production
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/static
+    networks:
+      - frontend
+    ports:
+      - "5001:5001"
+    restart: unless-stopped
+
+networks:
+  frontend:
+    external: true
