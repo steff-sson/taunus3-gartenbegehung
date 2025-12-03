@@ -39,9 +39,11 @@ def make_tree(path):
 
 # Beginne Webapp
 app = Flask(__name__)
-# Setup the secret key and the environment
-app.config.update(SECRET_KEY='osd(99092=36&462134kjKDhuIS_d23',
-                  ENV='development')
+# Setup the secret key and the environment - NOW FROM ENVIRONMENT VARIABLE
+app.config.update(
+    SECRET_KEY=os.environ.get('SECRET_KEY', 'dev-key-please-change-in-production'),
+    ENV=os.environ.get('FLASK_ENV', 'production')
+)
 
 @app.route('/name', methods=['GET', 'POST'])
 def name():
@@ -193,7 +195,7 @@ def done():
 
 @app.route('/pdfs')
 def dirtree():
-    path = '/home/stef/github/taunus3-gartenbegehung/static/pdf'
+    path = '/app/static/pdf'  # CHANGED: Docker path instead of local path
     return render_template('pdfs.html', tree=make_tree(path))
 
 @app.route('/')
