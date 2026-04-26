@@ -38,6 +38,8 @@ flask run
 
 ### 1. Server-Voraussetzungen
 
+#### Debian/Ubuntu
+
 ```bash
 # System-Dependencies für WeasyPrint (einmalig)
 sudo apt-get update
@@ -45,6 +47,16 @@ sudo apt-get install -y libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixb
 
 # Python 3 installieren (falls nicht vorhanden)
 sudo apt-get install -y python3 python3-venv python3-pip
+```
+
+#### Arch Linux
+
+```bash
+# System-Dependencies für WeasyPrint (einmalig)
+sudo pacman -S --noconfirm cairo pango gdk-pixbuf2 libffi shared-mime-info
+
+# Python installieren (falls nicht vorhanden)
+sudo pacman -S --noconfirm python python-pip python-venv
 ```
 
 ### 2. App deployen
@@ -57,7 +69,7 @@ cd /home/stef/github/taunus3-gartenbegehung
 git pull
 
 # Virtuelle Umgebung erstellen (einmalig)
-python3 -m venv .venv
+python -m venv .venv
 
 # Abhängigkeiten installieren
 source .venv/bin/activate
