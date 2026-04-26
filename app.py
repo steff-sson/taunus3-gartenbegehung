@@ -3,7 +3,6 @@ from datetime import date
 import csv
 import os
 import time
-from functools import lru_cache
 from weasyprint import HTML
 from dotenv import load_dotenv
 
@@ -13,28 +12,36 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-fallback-key")
 app.config["FLASK_RUN_HOST"] = "0.0.0.0"
 
+_items_cache = {"items": None, "mtime": None}
 
-@lru_cache(maxsize=1)
+
 def load_items():
-    items = {
-        "basis": [],
-        "dachbauten": [],
-        "drittelung": [],
-        "unkraut": [],
-        "sonstiges": [],
-    }
     items_path = os.path.join(os.path.dirname(__file__), "static", "items.csv")
-    with open(items_path, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            cat = row["category"].lower()
-            if cat in items:
-                items[cat].append(row)
-    return items
+    current_mtime = os.path.getmtime(items_path)
+
+    if _items_cache["items"] is None or _items_cache["mtime"] < current_mtime:
+        items = {
+            "basis": [],
+            "dachbauten": [],
+            "drittelung": [],
+            "unkraut": [],
+            "sonstiges": [],
+        }
+        with open(items_path, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                cat = row["category"].lower()
+                if cat in items:
+                    items[cat].append(row)
+        _items_cache["items"] = items
+        _items_cache["mtime"] = current_mtime
+
+    return _items_cache["items"]
 
 
 def clear_items_cache():
-    load_items.cache_clear()
+    global _items_cache
+    _items_cache = {"items": None, "mtime": None}
 
 
 def get_item_by_id(items, item_id):
