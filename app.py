@@ -90,6 +90,7 @@ def form():
     items = load_items()
 
     if request.method == "POST":
+        session["details"] = []
         today = date.today()
         jahr = today.strftime("%Y")
         datum = today.strftime("%d.%m.%Y")
