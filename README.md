@@ -22,7 +22,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # 4. App starten
-flask run
+flask run --host=0.0.0.0
 ```
 
 ### Entwicklung
@@ -31,6 +31,7 @@ flask run
 - **Deaktivieren:** `deactivate`
 - **Neue Pakete:** `pip install <paket>` (danach `pip freeze > requirements.txt`)
 - **Tests:** `pytest`
+- **LAN-Zugriff:** `flask run --host=0.0.0.0` (sonst nur localhost)
 
 ---
 
@@ -53,10 +54,10 @@ sudo apt-get install -y python3 python3-venv python3-pip
 
 ```bash
 # System-Dependencies für WeasyPrint (einmalig)
-sudo pacman -S --noconfirm cairo pango gdk-pixbuf2 libffi shared-mime-info
+sudo pacman -S cairo pango gdk-pixbuf2 libffi shared-mime-info
 
 # Python installieren (falls nicht vorhanden)
-sudo pacman -S --noconfirm python python-pip python-venv
+sudo pacman -S python python-pip python-venv
 ```
 
 ### 2. App deployen
@@ -140,7 +141,19 @@ Die Konfiguration erfolgt über die `.env`-Datei:
 
 ## Items anpassen
 
-Alle Formularfelder werden aus `static/items.csv` geladen. Siehe `agents.md` für Details.
+Alle Formularfelder werden aus `static/items.csv` geladen. Die Datei wird bei jeder Anfrage automatisch neu eingelesen – Änderungen sind sofort wirksam (kein Neustart nötig).
+
+### CSV-Felder (Kurzübersicht)
+
+| Feld | Beschreibung |
+|------|---------------|
+| id | Eindeutiger Identifier (für HTML name) |
+| category | Gruppierung (Basis, Dachbauten, Drittelung, Unkraut, Sonstiges) |
+| type | number, text, select, checkbox |
+| label | Anzeige im Formular |
+| output_text | Text für PDF/CSV (`{value}` wird ersetzt) |
+
+Ausführliche Dokumentation: `agents.md`
 
 ## Tests
 
