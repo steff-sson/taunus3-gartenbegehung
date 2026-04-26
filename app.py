@@ -58,8 +58,9 @@ def get_output_text(items, item_id, value):
     return ""
 
 
-def make_tree(path):
-    tree = dict(name=os.path.basename(path), children=[])
+def make_tree(path, base_path=""):
+    rel_path = os.path.basename(path)
+    tree = dict(name=rel_path, path=base_path + "/" + rel_path, children=[])
     try:
         lst = os.listdir(path)
     except OSError:
@@ -68,9 +69,9 @@ def make_tree(path):
         for name in lst:
             fn = os.path.join(path, name)
             if os.path.isdir(fn):
-                tree["children"].append(make_tree(fn))
+                tree["children"].append(make_tree(fn, tree["path"]))
             else:
-                tree["children"].append(dict(name=name))
+                tree["children"].append(dict(name=name, path=tree["path"] + "/" + name))
     return tree
 
 
