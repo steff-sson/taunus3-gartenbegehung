@@ -3,6 +3,7 @@ from datetime import date
 import csv
 import os
 import time
+from functools import lru_cache
 from weasyprint import HTML
 from dotenv import load_dotenv
 
@@ -12,6 +13,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-fallback-key')
 
 
+@lru_cache(maxsize=1)
 def load_items():
     items = {'basis': [], 'dachbauten': [], 'drittelung': [], 'unkraut': [], 'sonstiges': []}
     items_path = os.path.join(os.path.dirname(__file__), 'static', 'items.csv')
@@ -22,6 +24,10 @@ def load_items():
             if cat in items:
                 items[cat].append(row)
     return items
+
+
+def clear_items_cache():
+    load_items.cache_clear()
 
 
 def get_item_by_id(items, item_id):
@@ -75,7 +81,6 @@ def name():
 @app.route('/form', methods=['GET', 'POST'])
 def form():
     items = load_items()
-    session['details'] = []
 
     if request.method == 'POST':
         today = date.today()
@@ -88,7 +93,7 @@ def form():
         session['dach'] = request.form.get('dach')
         session['strom'] = request.form.get('strom', '')
 
-        session['dachbauten'] = get_output_text(items, request.form.get('dachbauten'), session['dach'])
+        session['dachbauten'] = get_output_text(items, request.form.get('dachbauten'), '')
         session['drittelung'] = get_output_text(items, request.form.get('drittelung'), '')
         session['unkraut'] = get_output_text(items, request.form.get('unkraut'), '')
 
