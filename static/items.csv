@@ -1,4 +1,4 @@
-"Sichtschutz, der nicht aus Pflanzen besteht, ist verboten. Bitte bis zum 31.07.2026 entfernen.",category,type,required,label,placeholder,output_text,severity,options,,
+id,category,type,required,label,placeholder,output_text,severity,options,,
 parzelle,Basis,number,true,Parzellennummer,z.B. 42,Parzelle: {value},info,,,
 dach,Basis,number,true,Dachfläche (m²),z.B. 24,Die Laube/überdachte Fläche beträgt {value} m².,info,,,
 strom,Basis,number,false,Stromzählerstand (kWh),z.B. 1234,Stromzählerstand: {value} kWh,info,,,
