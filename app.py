@@ -11,6 +11,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-fallback-key")
+app.config["FLASK_RUN_HOST"] = "0.0.0.0"
 
 
 @lru_cache(maxsize=1)
