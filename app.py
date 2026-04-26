@@ -126,7 +126,8 @@ def form():
 
         weiteres = request.form.get("weiteres", "").strip()
         if weiteres:
-            session["details"].append(weiteres)
+            output = get_output_text(items, "weiteres", weiteres)
+            session["details"].append(output)
 
         return redirect(url_for("preview"))
 
