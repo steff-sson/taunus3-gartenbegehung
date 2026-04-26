@@ -119,6 +119,7 @@ pytest --cov=app --cov-report=term-missing
 - **CSS-Framework:** W3.CSS (CDN)
 - **Custom CSS:** `static/custom.css`
 - **JS:** `static/slider-value.js`
+- **Farbschema:** Türkis (#009688) als Primärfarbe (BKleingG-konform)
 
 Bei Änderungen an Templates soll das bestehende W3.CSS-Styling beibehalten werden.
 

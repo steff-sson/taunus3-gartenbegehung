@@ -151,7 +151,7 @@ Alle Formularfelder werden aus `static/items.csv` geladen. Die Datei wird bei je
 | category | Gruppierung (Basis, Dachbauten, Drittelung, Unkraut, Sonstiges) |
 | type | number, text, select, checkbox |
 | label | Anzeige im Formular |
-| output_text | Text für PDF/CSV (`{value}` wird ersetzt) |
+| output_text | Text für PDF/CSV (`{value}` wird ersetzt; leer lassen bei Freitextfeldern) |
 
 Ausführliche Dokumentation: `agents.md`
 
