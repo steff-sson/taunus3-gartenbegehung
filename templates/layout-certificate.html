@@ -28,6 +28,26 @@
       border-bottom: 2px solid #009688;
     }
     
+    .pdf-top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #009688;
+      padding: 12px 15px;
+      margin: -15mm -12mm 15px -12mm;
+    }
+    
+    .pdf-top-title {
+      font-size: 16pt;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .pdf-logo {
+      height: 30px;
+      width: auto;
+    }
+    
     .pdf-date {
       font-size: 10pt;
     }
@@ -117,6 +137,10 @@
   </style>
 </head>
 <body>
+  <div class="pdf-top-header">
+    <span class="pdf-top-title">KGV Taunusg&auml;rten Anlage 3</span>
+    <img src="{{ url_for('static',filename='taunus3-small.png') }}" alt="Logo" class="pdf-logo">
+  </div>
   {% block content %}
   {% endblock %}
 </body>
