@@ -37,26 +37,26 @@
     </div>
 
     <div class="w3-row">
-      <div class="w3-container w3-padding-large">
-          <p></p>
-      </div>
-      <div class="w3-container w3-teal">
-        <div class="w3-row">
-          <div class="w3-container w3-half">
-            <a href="/form"><h4>Start</h4></a>
-          </div>
-          <div class="w3-container w3-half">
-            <a href="/pdfs"><h4>PDFs ansehen</h4></a>
-          </div>
-        </div>
-        <div class="w3-row">
-          <div class="w3-container">
-            <p class="w3-opacity">Taunusg&auml;rten Anlage 3 e.V. – Gartenbegehung (Webapp)</p>
-            <p class="w3-opacity">Code: Stefan Weitzel</p>
-          </div>
-        </div>
+      <div class="w3-container w3-mobile">
+        <h2 class="page-title">Gartenbegehung</h2>
+
+          {% block content %}
+          {% endblock %}
+
       </div>
     </div>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="/form">Start</a>
+        <span class="separator">|</span>
+        <a href="/pdfs">PDFs ansehen</a>
+      </div>
+      <div class="footer-info">
+        <p>Taunusg&auml;rten Anlage 3 e.V. &ndash; Gartenbegehung</p>
+        <p>Entwicklung: Stefan Weitzel</p>
+      </div>
+    </footer>
 
   </body>
 </html>

@@ -1,51 +1,56 @@
 {% extends "layout-certificate.html" %}
-      {% block content %}
+{% block content %}
 
-      <p>{{session['datum']}}</p>
-      <h1>Gartenbegehung</h1>      
-      <p>
-        <b>Parzelle: {{session['parzelle']}}</b>
-        <br>
-      
-        Liebe Gartenfreundin/lieber Gartenfreund der Parzelle Nr. {{session['parzelle']}},<br>
-        am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. die G&auml;rten der Anlage angesehen.
-      </p>
-      <!--<h3>Schulnote: <b>{{session['zustand']}}</b></h3>-->      
+<div class="pdf-header">
+  <span class="pdf-date">{{session['datum']}}</span>
+  <span class="pdf-parzelle"><strong>Parzelle: {{session['parzelle']}}</strong></span>
+</div>
 
-      <h4>Bebauung/überdachte Fläche</h4>      
-      <p>
-        Die Laube/überdachte Fläche beträgt {{session['dach']}} m².
-        {{session['dachbauten']}}
-      </p>  
+<h1>Gartenbegehung</h1>
 
-      <h4>Drittelung/Gartenzustand</h4> 
-      <p>
-        {{session['drittelung']}}
-      </p>
+<p>
+  Liebe Gartenfreundin, lieber Gartenfreund der Parzelle Nr. {{session['parzelle']}},<br>
+  am {{session['datum']}} hat der Vorstand des Taunusg&auml;rten Anlage 3 e.V. die G&auml;rten der Anlage angesehen.
+</p>
 
-      <h4>Unkraut/Invasive Pflanzen</h4> 
-      <p>
-        {{session['unkraut']}}
-      </p>
+<section>
+  <h2>Bebauung/&uuml;berdachte Fl&auml;che</h2>
+  <p>Die Laube/&uuml;berdachte Fl&auml;che betr&auml;gt {{session['dach']}} m&sup2;.</p>
+  <p>{{session['dachbauten']}}</p>
+</section>
 
-      <h4>Sonstiges</h4> 
+<section>
+  <h2>Drittelung/Gartenzustand</h2>
+  <p>{{session['drittelung']}}</p>
+</section>
 
-        {%for item in session['details']%}
-          <li class="w3-medium">{{item}}</li>
-        {% endfor %}
+<section>
+  <h2>Unkraut/Invasive Pflanzen</h2>
+  <p>{{session['unkraut']}}</p>
+</section>
 
-      <br>
+<section>
+  <h2>Sonstiges</h2>
+  <ul>
+  {%for item in session['details']%}
+    <li>{{item}}</li>
+  {% endfor %}
+  </ul>
+</section>
 
-      <h5>Allgemeiner Hinweis</h5>
-      <p class="w3-small">Gemäß § 8 Abs. 1 BKleingG ist die Parzelle kleingärtnerisch zu nutzen, insbesondere zur Gewinnung von Gartenbauerzeugnissen für den Eigenbedarf und zur Erholung. Ein Drittel der Parzellenfläche muss demnach für den Anbau von Obst und/oder Gemüse verwendet werden. Nichteinhaltung wirkt sich negativ auf unsere Gemeinnützigkeit aus und kann zu deutlich höheren Abgaben führen. Der Vorstand sieht sich daher verpflichtet dafür zu sorgen, dass die Vorschriften des Bundeskleingartengesetzes eingehalten werden.</p>
-      
-      <p class="w3-small">
-        Wir wünschen dir ein schönes Gartenjahr! Bei Rückfragen kannst du dich jederzeit per E-Mail an uns wenden: <b>vorstand@taunus3.de</b>
-        <br><br>
-        <b>Dein Gartenvorstand</b>
-        <br>
-        <div class="w3-small w3-text-teal">
-        Barbara Lange (Vorsitzende), Stefan Weitzel (Zweiter Vorsitzender), Zdenko Antunovic (Gartenwart), Andreas Lange (Kassierer), Johannes Weigel (Beisitzer), Helen Yohannes (Kantinenbeauftragte), Brigitte Klass (Schriftführung)
-      </p>
+<section class="legal">
+  <h2>Allgemeiner Hinweis</h2>
+  <p>Gem&auml;&szlig; &sect; 8 Abs. 1 BKleingG ist die Parzelle kleing&auml;rtnerisch zu nutzen, insbesondere zur Gewinnung von Gartenbauerzeugnissen f&uuml;r den Eigenbedarf und zur Erholung. Ein Drittel der Parzellenfl&auml;che muss demnach f&uuml;r den Anbau von Obst und/oder Gem&uuml;se verwendet werden. Nichteinhaltung wirkt sich negativ auf unsere Gemeinn&uuml;tzigkeit aus und kann zu deutlich h&ouml;heren Abgaben f&uuml;hren. Der Vorstand sieht sich daher verpflichtet daf&uuml;r zu sorgen, dass die Vorschriften des Bundeskleingartengesetzes eingehalten werden.</p>
+</section>
 
-      {% endblock %}
+<footer>
+  <p>Wir w&uuml;nschen dir ein sch&ouml;nes Gartenjahr! Bei R&uuml;ckfragen kannst du dich jederzeit per E-Mail an uns wenden: <strong>vorstand@taunus3.de</strong></p>
+  
+  <p class="signature"><strong>Dein Gartenvorstand</strong></p>
+  
+  <div class="board">
+    <p>Barbara Lange (Vorsitzende), Stefan Weitzel (2. Vorsitzender), Zdenko Antunovic (Gartenwart), Andreas Lange (Kassierer), Johannes Weigel (Beisitzer), Helen Yohannes (Kantinenbeauftragte), Brigitte Klass (Schriftf&uuml;hrung)</p>
+  </div>
+</footer>
+
+{% endblock %}
