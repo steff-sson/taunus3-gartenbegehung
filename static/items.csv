@@ -24,4 +24,4 @@ details8,Sonstiges,checkbox,false,Äste ragen in Wege/Nachbargärten,,"Äste, Zw
 details9,Sonstiges,checkbox,false,Kranke Gehölze/Bäume,,Der Garten enthält kranke Gehölze/Bäume. Bitte bis zum 31.07.2026 entfernen.,error,,,
 details10,Sonstiges,checkbox,false,Parzellennummer nicht sichtbar,,Bitte die Parzellennummer sichtbar anbringen.,warning,,,
 details11,Sonstiges,checkbox,false,Hauptweg mit Unkraut,,Der Hauptweg ist zu stark mit Unkraut bewachsen. Bitte bis zum 31.07.2026 entfernen.,warning,,,
-weiteres,Sonstiges,text,false,Weiteres,,{value},info,,,
+weiteres,Sonstiges,text,false,Weiteres,,,info,,,
