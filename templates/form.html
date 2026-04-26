@@ -1,125 +1,66 @@
 {% extends "layout.html" %}
-      {% block content %}
-      <h2>Details zur Gartenbewertung</h2>
-      <div class="w3-container">
-        <p class="w3-large">
-          Hallo {{session['name1']}}, gib hier die Details zur Gartenbewertung ein.
-          <br>
-          <a href="/name">Namen ändern</a>
-        </p>
-        <br>
-      <div class="w3-container">
+{% block content %}
+<h2>Details zur Gartenbewertung</h2>
+<div class="w3-container">
+  <p class="w3-large">
+    Hallo {{session['name1']}}, gib hier die Details zur Gartenbewertung ein.
+    <br>
+    <a href="/name">Namen ändern</a>
+  </p>
+  <br>
+  <div class="w3-container">
+    <form class="w3-container" method="post">
+      <p class="w3-large">
+        {% for item in items.basis %}
+          <label class="w3-text-teal">{{item.label}}</label>
+          <input class="w3-input w3-border w3-light-grey" 
+                 name="{{item.id}}" 
+                 type="{{item.type}}" 
+                 placeholder="{{item.placeholder}}"
+                 style="width:100px"
+                 {% if item.required == 'true' %}required{% endif %}>
+          <br><br>
+        {% endfor %}
 
-          <form class="w3-container" method="post">
-            <p class="w3-large">
-              <label class="w3-text-teal">Parzellennummer</label>
-              <input class="w3-input w3-border w3-light-grey" name="parzelle" type="number" style="width:100px" maxlength="4" required="required">
-              <br>
-              <label class="w3-text-teal">Dachfl&auml;che (in m², ungef&auml;hr)</label>
-              <input class="w3-input w3-border w3-light-grey"  name="dach" type="number" style="width:100px" maxlength="4" required="required">  
-              <br>            
-              <label class="w3-text-teal">Stromz&auml;hlerstand (in kwh)</label>
-              <input class="w3-input w3-border w3-light-grey"  name="strom" type="number" style="width:100px" maxlength="5">
-              <br>
-              <h4>Bebauung/überdachte Fläche</h4>              
-              <select class="w3-select w3-border" id="dachbauten" name="dachbauten">
-                <option value="keine">Keine Anmerkungen.</option>
-                <option value="ueberschreitet">Die Laube/überdachte Fläche überschreitet 24 m².</option>
-                <option value="ueberschreitet_zustimmung">Die Laube/überdachte Fläche wurde ohne Zustimmung des Vorstandes vergrößert und überschreitet 24 m².</option>
-                <option value="ueberschreitet_abmahnung">Abmahnung: Die Laube/überdachte Fläche wurde ohne Zustimmung des Vorstandes vergrößert und überschreitet 24 m².</option>
-              </select>
-              <br>
-              
-              <h4>Drittelung/Gartenzustand</h4>             
-              <select class="w3-select w3-border" id="drittelung" name="drittelung">
-                <option value="keine">Keine Anmerkungen.</option>
-                <option value="drittelung">Der Garten weist keine Drittelung auf.</option>
-                <option value="drittelung_abmahnung">Abmahnung: Der Garten weist keine kleingärtnerische Nutzung auf.</option>
-              </select>
-              <br>
+        <h4>Bebauung/überdachte Fläche</h4>
+        <select class="w3-select w3-border" id="dachbauten" name="dachbauten">
+          {% for item in items.dachbauten %}
+            <option value="{{item.id}}">{{item.label}}</option>
+          {% endfor %}
+        </select>
+        <br><br>
 
-              <h4>Unkraut/Invasive Pflanzen</h4>             
-              <select class="w3-select w3-border" id="unkraut" name="unkraut">
-                <option value="keine">Keine Anmerkungen.</option>
-                <option value="unkraut">Der Garten weist Unkraut mit Samenflug bzw. invasive Pflanzen auf, die sich negativ auf Nachbargarten ausbreiten.</option>
-                <option value="unkraut_abmahnung">Abmahnung: Der Garten weist Unkraut mit Samenflug bzw. invasive Pflanzen auf, die sich negativ auf Nachbargarten ausbreiten.</option>
-              </select>
-              <br>
+        <h4>Drittelung/Gartenzustand</h4>
+        <select class="w3-select w3-border" id="drittelung" name="drittelung">
+          {% for item in items.drittelung %}
+            <option value="{{item.id}}">{{item.label}}</option>
+          {% endfor %}
+        </select>
+        <br><br>
 
-              <h3>Sonstiges</h3>              
-              <input class="w3-check w3-teal" type="checkbox" name="details0">
-              <label class="w3-text-teal">{{session['details0']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details1">
-              <label class="w3-text-teal">{{session['details1']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details2">
-              <label class="w3-text-teal">{{session['details2']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details3">
-              <label class="w3-text-teal">{{session['details3']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details4">
-              <label class="w3-text-teal">{{session['details4']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details5">
-              <label class="w3-text-teal">{{session['details5']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details6">
-              <label class="w3-text-teal">{{session['details6']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details7">
-              <label class="w3-text-teal">{{session['details7']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details8">
-              <label class="w3-text-teal">{{session['details8']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details9">
-              <label class="w3-text-teal">{{session['details9']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details10">
-              <label class="w3-text-teal">{{session['details10']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details11">
-              <label class="w3-text-teal">{{session['details11']}}</label>
-              <br><br>
-              <!--
-              <input class="w3-check w3-teal" type="checkbox" name="details11">
-              <label class="w3-text-teal">{{session['details11']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details12">
-              <label class="w3-text-teal">{{session['details12']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details13">
-              <label class="w3-text-teal">{{session['details13']}}</label>
-              <br><br>
-              <input class="w3-check w3-teal" type="checkbox" name="details14">
-              <label class="w3-text-teal">{{session['details14']}}</label>
-              <br><br>
-              -->            
-              <label class="w3-text-teal">Weiteres</label><br>
-              <input class="w3-input w3-border" type="text" name="weiteres">              
-              <br><br>
-              <!--
-              <label class="w3-text-teal"><b>Schulnotenpunkte f&uuml;r den gesamten Garten: <span id="note" class="w3-xlarge"></span></b></label>
-              <br>
-              <label class="w3-text-teal">Vergieb mit dem Schiebregler zwischen 0 und 15 Schulnotenpunkte:</label><br>
-              <label class="w3-text-teal">
-                (0 = "ungenügend")<br>
-                (1, 2, 3 = "mangelhaft")<br>
-                (4, 5, 6 = "ausreichend")<br>
-                (7, 8, 9 = "befriedigend")<br>
-                (10, 11, 12 = "gut")<br>
-                (13, 14, 15 = "sehr gut")<br>
-              </label>              
-              <br>
-              <div class="slidecontainer">
-                <input type="range" min="0" max="15" value="5" class="slider" id="zustand" name="zustand" required="required"s>
-              </div>-->
-              <br><br>
-              <button class="w3-btn w3-teal" type="submit">Vorschau</button>
-            </p>
-            </form>
+        <h4>Unkraut/Invasive Pflanzen</h4>
+        <select class="w3-select w3-border" id="unkraut" name="unkraut">
+          {% for item in items.unkraut %}
+            <option value="{{item.id}}">{{item.label}}</option>
+          {% endfor %}
+        </select>
+        <br><br>
 
-        </div>
-      {% endblock %}
+        <h3>Sonstiges</h3>
+        {% for item in items.sonstiges %}
+          {% if item.type == 'checkbox' %}
+            <input class="w3-check w3-teal" type="checkbox" name="{{item.id}}" value="{{item.output_text}}">
+            <label class="w3-text-teal">{{item.label}}</label>
+            <br><br>
+          {% elif item.type == 'text' %}
+            <label class="w3-text-teal">{{item.label}}</label><br>
+            <input class="w3-input w3-border" type="text" name="{{item.id}}" placeholder="{{item.placeholder}}">
+            <br><br>
+          {% endif %}
+        {% endfor %}
+
+        <button class="w3-btn w3-teal" type="submit">Vorschau</button>
+      </p>
+    </form>
+  </div>
+{% endblock %}
