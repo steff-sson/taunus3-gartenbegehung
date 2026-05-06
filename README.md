@@ -80,20 +80,20 @@ pip install -r requirements.txt
 sudo systemctl restart gartenbegehung
 ```
 
-### 3. systemd-Service prüfen
+### 3. systemd-Service einrichten
 
-Der Service sollte auf den korrekten Pfad zeigen:
+Die Service-Vorlage liegt im Repo: `gartenbegehung.service.template`. Platzhalter ersetzen und auf dem Server installieren:
 
-```ini
-[Service]
-Environment="PATH=/home/stef/github/taunus3-gartenbegehung/.venv/bin"
-ExecStart=/home/stef/github/taunus3-gartenbegehung/.venv/bin/gunicorn --workers 3 --bind 0.0.0.0:5000 wsgi:app
+```bash
+sudo cp gartenbegehung.service.template /etc/systemd/system/taunus3-gartenbegehung.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now taunus3-gartenbegehung
 ```
 
 Prüfen mit:
 ```bash
-sudo systemctl status gartenbegehung
-sudo journalctl -u gartenbegehung -f
+sudo systemctl status taunus3-gartenbegehung
+sudo journalctl -u taunus3-gartenbegehung -f
 ```
 
 ---

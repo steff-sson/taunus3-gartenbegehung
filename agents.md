@@ -39,12 +39,22 @@ sudo pacman -S cairo pango gdk-pixbuf2 libffi shared-mime-info
 
 ### systemd Service
 
-Der Service läuft unter `/etc/systemd/system/gartenbegehung.service`.
+Die Vorlage `gartenbegehung.service.template` enthält `<USER>`, `<GROUP>` und `<APP_DIR>` als Platzhalter. Auf den Server kopieren, Platzhalter ersetzen und ablegen als:
+```
+/etc/systemd/system/taunus3-gartenbegehung.service
+```
+
+```bash
+# Nach Anpassung der Platzhalter
+sudo cp gartenbegehung.service.template /etc/systemd/system/taunus3-gartenbegehung.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now taunus3-gartenbegehung
+```
 
 Nach Code-Updates:
 ```bash
 git pull
-sudo systemctl restart gartenbegehung
+sudo systemctl restart taunus3-gartenbegehung
 ```
 
 ## Code-Struktur
