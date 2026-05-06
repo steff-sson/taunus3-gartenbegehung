@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve 'taunus3-gartenbegehung' app
+After=network.target
+
+[Service]
+User=<USER>
+Group=<GROUP>
+WorkingDirectory=<APP_DIR>
+Environment="PATH=<APP_DIR>/.venv/bin"
+ExecStart=<APP_DIR>/.venv/bin/gunicorn --workers 3 --bind 0.0.0.0:5000 app:app
+
+[Install]
+WantedBy=multi-user.target
