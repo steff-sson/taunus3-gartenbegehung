@@ -64,25 +64,31 @@ sudo systemctl restart taunus3-gartenbegehung
 | Funktion | Beschreibung |
 |----------|---------------|
 | `load_items()` | Lädt items.csv mit Auto-Reload (mtime-basiert) |
+| `clear_items_cache()` | Cache manuell zurücksetzen |
 | `get_item_by_id()` | Sucht Item nach ID in allen Kategorien |
-| `get_output_text()` | Ersetzt `{value}` in output_text |
+| `format_output()` | Ersetzt `{value}` in output_text |
+| `get_output_text()` | Kombiniert get_item_by_id + format_output |
 | `make_tree()` | Erstellt rekursive Verzeichnisstruktur für /pdfs |
-| Routes: `/`, `/name`, `/form`, `/preview`, `/done`, `/pdfs` | App-Routen |
+| Routes: `/`, `/name`, `/form`, `/preview`, `/done`, `/pdfs`, `/api/last-dach` | App-Routen |
 
 ### Templates
 
 - `layout.html` / `layout-certificate.html` - Basis-Layouts (W3.CSS)
-- `form.html` - Dynamisches Formular (Loop über CSV)
-- `preview.html` - Vorschau vor Speichern
-- `certificate.html` - PDF-Vorlage
+- `form.html` - Dynamisches Formular (Loop über CSV), inkl. Dach-Daten-Button und Abmahnung-Select
+- `preview.html` - Vorschau vor Speichern, inkl. Abmahnung-Warnung und Frist-Hinweis
+- `certificate.html` - PDF-Vorlage, inkl. Frist-Hinweis nach Sonstiges-Liste
+- `abmahnung.html` - Abmahnung-PDF (dynamischer Titel je Mahnungslevel)
 - `done.html` - Erfolgsseite
 - `pdfs.html` - PDF-Liste mit korrekten Links
 
 ### Statische Dateien
 
 - `static/items.csv` - Formular-Konfiguration (wird automatisch neu geladen)
-- `static/pdf/{jahr}/` - Generierte PDFs
-- `static/gartenbegehung-{jahr}.csv` - Jahresdaten
+- `static/pdf/{jahr}/` - Generierte PDFs (inkl. Abmahnung-PDFs)
+- `static/gartenbegehung-{jahr}.csv` - Jahresdaten (Semikolon-getrennt)
+- `static/custom.css` - Eigenes CSS
+- `static/slider-value.js` - JavaScript (Range-Slider, Dach-Daten-Button)
+- `static/loading.gif` / `static/taunus3-small.png` / `static/taunus3.jpg` - Bilder
 
 ## items.csv
 
@@ -93,8 +99,8 @@ Die CSV-Datei steuert alle Formularfelder. Änderungen werden bei jedem Request 
 | Feld | Typ | Beschreibung | Beispiel |
 |------|-----|--------------|----------|
 | id | string | Eindeutiger Identifier (für HTML name="" ) | parzelle, dachbauten_keine |
-| category | string | Gruppierung (Basis, Dachbauten, Drittelung, Unkraut, Sonstiges) | Basis |
-| type | string | Input-Typ | number, text, select, checkbox |
+| category | string | Gruppierung (Basis, Dachbauten, Drittelung, Unkraut, Sonstiges, Abmahnung) | Basis |
+| type | string | Input-Typ | number, text, select, checkbox, date |
 | required | string | Pflichtfeld (true/false) | true |
 | label | string | Anzeigetext im Formular | Parzellennummer |
 | placeholder | string | Placeholder-Text | z.B. 42 |
@@ -111,8 +117,10 @@ Die CSV-Datei steuert alle Formularfelder. Änderungen werden bei jedem Request 
 ### Hinweise
 
 - `{value}` in output_text wird durch den eingegebenen Wert ersetzt
-- category muss klein geschrieben werden (basis, dachbauten, drittelung, unkraut, sonstiges)
-- type muss gültig sein: number, text, select, checkbox
+- category muss klein geschrieben werden (basis, dachbauten, drittelung, unkraut, sonstiges, abmahnung)
+- type muss gültig sein: number, text, select, checkbox, date
+- `Frist` (type=date) ist ein Pflichtfeld mit Platzhalter-Wert, der im Formular vorausgefüllt und bearbeitbar ist
+- Items mit `id` in `details0, details1, Frist` werden von Abmahnungsgründen ausgeschlossen, ebenso alle Dachbauten-Items
 
 ## Tests
 
@@ -149,16 +157,21 @@ taunus3-gartenbegehung/
 ├── .env                      # Umgebungsvariablen (nicht in Git)
 ├── static/
 │   ├── items.csv             # Formular-Konfiguration
-│   ├── pdf/                  # Generierte PDFs
+│   ├── pdf/                  # Generierte PDFs (inkl. Abmahnungen)
 │   │   └── {jahr}/
 │   ├── gartenbegehung-{jahr}.csv  # Jahresdaten
-│   └── custom.css            # Eigenes CSS
+│   ├── custom.css            # Eigenes CSS
+│   └── slider-value.js       # JavaScript (Slider + API-Button)
 ├── templates/
 │   ├── layout.html           # Basis-Layout
+│   ├── layout-certificate.html  # PDF-Layout
 │   ├── form.html             # Formular
+│   ├── preview.html          # Vorschau
+│   ├── certificate.html      # Bescheinigung-PDF
+│   ├── abmahnung.html        # Abmahnung-PDF
 │   └── ...
 ├── app.py                    # Haupt-App
 ├── agents.md                 # Diese Datei
-└── tests/                    # Tests
+└── tests/                    # Tests (18 Tests)
     └── test_items.py
 ```

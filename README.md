@@ -1,6 +1,6 @@
 # taunus3-gartenbegehung
 
-Formular zur Dateneingabe einer Gartenbegehung für den Kleingartenverein Taunusgärten Anlage 3 e.V.
+Formular zur Dateneingabe einer Gartenbegehung für den Kleingartenverein Taunusgärten Anlage 3 e.V. – inklusive Abmahnung-PDF und automatischer Datenübernahme aus dem Vorjahr.
 
 ## Appstack
 
@@ -148,8 +148,8 @@ Alle Formularfelder werden aus `static/items.csv` geladen. Die Datei wird bei je
 | Feld | Beschreibung |
 |------|---------------|
 | id | Eindeutiger Identifier (für HTML name) |
-| category | Gruppierung (Basis, Dachbauten, Drittelung, Unkraut, Sonstiges) |
-| type | number, text, select, checkbox |
+| category | Gruppierung (Basis, Dachbauten, Drittelung, Unkraut, Sonstiges, Abmahnung) |
+| type | number, text, select, checkbox, date |
 | label | Anzeige im Formular |
 | output_text | Text für PDF/CSV (`{value}` wird ersetzt; leer lassen bei Freitextfeldern) |
 
