@@ -25,6 +25,7 @@ def load_items():
             "dachbauten": [],
             "drittelung": [],
             "unkraut": [],
+            "abmahnung": [],
             "sonstiges": [],
         }
         with open(items_path, "r", encoding="utf-8") as f:
@@ -117,16 +118,38 @@ def form():
         )
         session["unkraut"] = get_output_text(items, request.form.get("unkraut"), "")
 
+        session["frist"] = request.form.get("Frist", "")
+
+        abmahnung_select = request.form.get("abmahnung", "abmahnung_keine")
+        session["abmahnung"] = abmahnung_select != "abmahnung_keine"
+        if session["abmahnung"]:
+            session["abmahnung_level"] = abmahnung_select
+
+        session["abmahnung_items"] = []
+
+        if session["abmahnung"]:
+            for field in ["drittelung", "unkraut"]:
+                item_id = request.form.get(field)
+                item = get_item_by_id(items, item_id)
+                if item and item.get("output_text"):
+                    session["abmahnung_items"].append(item["output_text"])
+
+        ABMAHNUNG_EXCLUDE = {"details0", "details1", "Frist"}
+
         for item in items["sonstiges"]:
             item_id = item["id"]
             if request.form.get(item_id):
                 output = get_output_text(items, item_id, "")
                 if output:
                     session["details"].append(output)
+                    if session["abmahnung"] and item_id not in ABMAHNUNG_EXCLUDE:
+                        session["abmahnung_items"].append(output)
 
         weiteres = request.form.get("weiteres", "").strip()
         if weiteres:
             session["details"].append(weiteres)
+            if session["abmahnung"]:
+                session["abmahnung_items"].append(weiteres)
 
         return redirect(url_for("preview"))
 
@@ -183,6 +206,12 @@ def preview():
         html = render_template("certificate.html")
         HTML(string=html).write_pdf(pdf_path)
 
+        if session.get("abmahnung"):
+            abmahnung_name = f"{jahr}-Parzelle-{session.get('parzelle', 'x')}---{hours}-{minutes}-{seconds}-Abmahnung.pdf"
+            abmahnung_path = os.path.join(pdf_dir, abmahnung_name)
+            abmahnung_html = render_template("abmahnung.html")
+            HTML(string=abmahnung_html).write_pdf(abmahnung_path)
+
         return redirect(url_for("done"))
 
     return render_template("preview.html")
@@ -200,6 +229,10 @@ def done():
         "parzelle",
         "strom",
         "jahr",
+        "abmahnung",
+        "abmahnung_items",
+        "abmahnung_level",
+        "frist",
     ]:
         session.pop(key, None)
     return render_template("done.html")
@@ -214,6 +247,33 @@ def dirtree():
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/api/last-dach")
+def last_dach():
+    parzelle = request.args.get("parzelle", "")
+    if not parzelle:
+        return {"error": "Keine Parzellennummer angegeben"}, 400
+
+    jahr = str(date.today().year - 1)
+    csv_file = os.path.join(
+        os.path.dirname(__file__), "static", f"gartenbegehung-{jahr}.csv"
+    )
+
+    if not os.path.isfile(csv_file):
+        return {"error": f"Keine Daten aus {jahr} vorhanden"}, 404
+
+    last_dach = None
+    with open(csv_file, "r", encoding="utf-8") as f:
+        reader = csv.reader(f, delimiter=";")
+        next(reader, None)
+        for row in reader:
+            if len(row) >= 3 and row[1] == parzelle:
+                last_dach = row[2]
+
+    if last_dach is not None:
+        return {"dach": last_dach}
+    return {"error": f"Parzelle {parzelle} in {jahr} nicht gefunden"}, 404
 
 
 if __name__ == "__main__":

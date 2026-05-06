@@ -13,7 +13,21 @@
     <!-- Basis-Felder -->
     <div class="form-section">
       <h3>Grunddaten</h3>
-      {% for item in items.basis %}
+      <div class="mb-md">
+        <label for="parzelle">Parzellennummer</label>
+        <div style="display:flex; gap:8px">
+          <input 
+            id="parzelle"
+            name="parzelle" 
+            type="number" 
+            placeholder="z.B. 42"
+            required
+            style="flex:1">
+          <button type="button" id="btn-last-dach" class="w3-btn" style="white-space:nowrap;min-width:auto">Daten laden</button>
+        </div>
+        <span id="last-dach-msg" class="w3-small" style="display:none;margin-top:4px"></span>
+      </div>
+      {% for item in items.basis[1:] %}
       <div class="mb-md">
         <label for="{{item.id}}">{{item.label}}</label>
         <input 
@@ -62,6 +76,18 @@
       </div>
     </div>
 
+    <!-- Abmahnung -->
+    <div class="form-section">
+      <h3>Abmahnung</h3>
+      <div class="mb-md">
+        <select id="abmahnung" name="abmahnung">
+          {% for item in items.abmahnung %}
+            <option value="{{item.id}}">{{item.label}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
     <!-- Sonstiges -->
     <div class="form-section">
       <h3>Sonstiges</h3>
@@ -84,6 +110,16 @@
             name="{{item.id}}" 
             placeholder="{{item.placeholder}}">
         </div>
+        {% elif item.type == 'date' %}
+        <div class="mb-md">
+          <label for="{{item.id}}">{{item.label}}</label>
+          <input 
+            type="text" 
+            id="{{item.id}}"
+            name="{{item.id}}" 
+            value="{{item.placeholder}}"
+            {% if item.required == 'true' %}required{% endif %}>
+        </div>
         {% endif %}
       {% endfor %}
     </div>
@@ -91,4 +127,36 @@
     <button type="submit" class="btn-primary" style="width:100%">Vorschau</button>
   </form>
 </div>
+
+<script>
+document.getElementById('btn-last-dach').addEventListener('click', function() {
+  var parzelle = document.getElementById('parzelle').value;
+  var msg = document.getElementById('last-dach-msg');
+  if (!parzelle) {
+    msg.style.display = 'block';
+    msg.style.color = '#d32f2f';
+    msg.textContent = 'Bitte zuerst Parzellennummer eingeben.';
+    return;
+  }
+  msg.style.display = 'block';
+  msg.style.color = '#757575';
+  msg.textContent = 'Lade...';
+  fetch('/api/last-dach?parzelle=' + encodeURIComponent(parzelle))
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.dach) {
+        document.getElementById('dach').value = data.dach;
+        msg.style.color = '#2e7d32';
+        msg.textContent = 'Dachgröße aus ' + (new Date().getFullYear() - 1) + ' geladen: ' + data.dach + ' m²';
+      } else {
+        msg.style.color = '#e65100';
+        msg.textContent = data.error || 'Keine Daten gefunden.';
+      }
+    })
+    .catch(function() {
+      msg.style.color = '#d32f2f';
+      msg.textContent = 'Fehler beim Laden.';
+    });
+});
+</script>
 {% endblock %}

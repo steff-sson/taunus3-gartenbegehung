@@ -1,0 +1,50 @@
+{% extends "layout-certificate.html" %}
+{% block content %}
+
+<div class="pdf-header">
+  <span class="pdf-date">{{session['datum']}}</span>
+  <span class="pdf-parzelle"><strong>Parzelle: {{session['parzelle']}}</strong></span>
+</div>
+
+{% set level = session.get('abmahnung_level', 'abmahnung_erste') %}
+{% if level == 'abmahnung_zweite' %}
+  {% set title = '2. Abmahnung' %}
+{% elif level == 'abmahnung_dritte' %}
+  {% set title = '3. Abmahnung' %}
+{% else %}
+  {% set title = 'Abmahnung' %}
+{% endif %}
+
+<h1>{{title}}</h1>
+
+<p>nach der Gartenbegehung am {{session['datum']}}</p>
+
+<p>
+  Sehr geehrte/r P&auml;chter/in der Parzelle {{session['parzelle']}} des Kleingartenvereins Taunusg&auml;rten, Anlage 3,
+</p>
+
+<p>
+  hiermit mahnen wir Sie ab, da Sie die Verpflichtungen, die die Nutzung des Kleingartens im Sinne des Bundeskleingartengesetzes vorsehen, nicht unerheblich verletzen.{% if level != 'abmahnung_dritte' %} Um einer weiteren Mahnung vorzubeugen fordern wir Sie dazu auf, folgende Pflichtverletzungen bis zum {{session.get('frist', '')}} abzustellen:{% endif %}
+</p>
+
+<ul style="margin-bottom:12px">
+  {% for item in session.get('abmahnung_items', []) %}
+    <li style="margin-bottom:6px">{{item}}</li>
+  {% endfor %}
+</ul>
+
+<p>
+  Bitte weisen Sie das Abstellen der Pflichtverletzung mit Fotos dem Vorstand per E-Mail an <strong>vorstand@taunus3.de</strong> nach. Der Vorstand beh&auml;lt sich eine erneute Begehung Ihres Gartens zur Begutachtung vor. Eine 3. Abmahnung f&uuml;hrt zur K&uuml;ndigung.
+</p>
+
+<footer>
+  <p>Vorstand KGV Anlage 3 e.V. &ndash; Frankfurt, den {{session['datum']}}</p>
+
+  <p class="signature"><strong>Dein Gartenvorstand</strong></p>
+
+  <div class="board">
+    <p>Barbara Lange (Vorsitzende), Stefan Weitzel (Zweiter Vorsitzender), Zdenko Antunovic (Gartenwart), Andreas Lange (Kassierer), Johannes Weigel (Beisitzer), Helen Yohannes (Kantinenbeauftragte), Brigitte Klass (Schriftf&uuml;hrung)</p>
+  </div>
+</footer>
+
+{% endblock %}

@@ -45,6 +45,7 @@
               {% endfor %}
 
             <br>
+            <p style="font-size:18px;font-weight:bold">Wir bitten dich, die oben genannten Punkte zu beachten und M&auml;ngel bis zum {{session.get('frist', '')}} zu beseitigen.</p>
 
             <h5>Hinweise zur Bewertung</h5>
             <p class="w3-small">Gemäß § 8 Abs. 1 BKleingG ist die Parzelle kleingärtnerisch zu nutzen, insbesondere zur Gewinnung von Gartenbauerzeugnissen für den Eigenbedarf und zur Erholung. Ein Drittel der Parzellenfläche muss demnach für den Anbau von Obst und/oder Gemüse verwendet werden. Nichteinhaltung wirkt sich negativ auf unsere Gemeinnützigkeit aus und kann zu deutlich höheren Abgaben führen. Der Vorstand sieht sich daher verpflichtet dafür zu sorgen, dass die Vorschriften des Bundeskleingartengesetzes eingehalten werden.</p>           
@@ -55,6 +56,13 @@
             <form method="post">
               <button class="w3-btn w3-teal" type="submit" onclick="loading();">Bewertung speichern & PDF erstellen!</button>
             </form>
+            {% if session.get('abmahnung') %}
+            {% set lvl = session.get('abmahnung_level', 'abmahnung_erste') %}
+            <br>
+            <div style="background:#fff3e0;border:2px solid #e65100;padding:12px 16px;margin-top:12px;border-radius:8px">
+              <strong style="color:#e65100">{% if lvl == 'abmahnung_zweite' %}2. {% elif lvl == 'abmahnung_dritte' %}3. {% endif %}Abmahnung wird ausgestellt</strong>
+            </div>
+            {% endif %}
           </div>
         </div>
 
