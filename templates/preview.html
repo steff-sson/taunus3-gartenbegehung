@@ -45,7 +45,9 @@
               {% endfor %}
 
             <br>
+            {% if session.get('frist') %}
             <p style="font-size:18px;font-weight:bold">Wir bitten dich, die oben genannten Punkte zu beachten und M&auml;ngel bis zum {{session.get('frist', '')}} zu beseitigen.</p>
+            {% endif %}
 
             <h5>Hinweise zur Bewertung</h5>
             <p class="w3-small">Gemäß § 8 Abs. 1 BKleingG ist die Parzelle kleingärtnerisch zu nutzen, insbesondere zur Gewinnung von Gartenbauerzeugnissen für den Eigenbedarf und zur Erholung. Ein Drittel der Parzellenfläche muss demnach für den Anbau von Obst und/oder Gemüse verwendet werden. Nichteinhaltung wirkt sich negativ auf unsere Gemeinnützigkeit aus und kann zu deutlich höheren Abgaben führen. Der Vorstand sieht sich daher verpflichtet dafür zu sorgen, dass die Vorschriften des Bundeskleingartengesetzes eingehalten werden.</p>           

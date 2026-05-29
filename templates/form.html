@@ -43,48 +43,50 @@
     <!-- Bebauung -->
     <div class="form-section">
       <h3>Bebauung/überdachte Fläche</h3>
-      <div class="mb-md">
-        <select id="dachbauten" name="dachbauten">
-          {% for item in items.dachbauten %}
-            <option value="{{item.id}}">{{item.label}}</option>
-          {% endfor %}
-        </select>
+      <div class="radio-group">
+        {% for item in items.dachbauten %}
+          <label class="radio-wrapper">
+            <input type="radio" name="dachbauten" value="{{item.id}}" {% if loop.first %}checked{% endif %}>
+            <span>{{item.label}}</span>
+          </label>
+        {% endfor %}
       </div>
     </div>
 
     <!-- Drittelung -->
     <div class="form-section">
       <h3>Drittelung/Gartenzustand</h3>
-      <div class="mb-md">
-        <select id="drittelung" name="drittelung">
-          {% for item in items.drittelung %}
-            <option value="{{item.id}}">{{item.label}}</option>
-          {% endfor %}
-        </select>
+      <div class="radio-group">
+        {% for item in items.drittelung %}
+          <label class="radio-wrapper">
+            <input type="radio" name="drittelung" value="{{item.id}}" {% if loop.first %}checked{% endif %}>
+            <span>{{item.label}}</span>
+          </label>
+        {% endfor %}
       </div>
     </div>
 
     <!-- Unkraut -->
     <div class="form-section">
       <h3>Unkraut/Invasive Pflanzen</h3>
-      <div class="mb-md">
-        <select id="unkraut" name="unkraut">
-          {% for item in items.unkraut %}
-            <option value="{{item.id}}">{{item.label}}</option>
-          {% endfor %}
-        </select>
+      <div class="radio-group">
+        {% for item in items.unkraut %}
+          <label class="radio-wrapper">
+            <input type="radio" name="unkraut" value="{{item.id}}" {% if loop.first %}checked{% endif %}>
+            <span>{{item.label}}</span>
+          </label>
+        {% endfor %}
       </div>
     </div>
 
     <!-- Abmahnung -->
     <div class="form-section">
       <h3>Abmahnung</h3>
-      <div class="mb-md">
-        <select id="abmahnung" name="abmahnung">
-          {% for item in items.abmahnung %}
-            <option value="{{item.id}}">{{item.label}}</option>
-          {% endfor %}
-        </select>
+      <div class="btn-group" role="group" aria-label="Abmahnung">
+        {% for item in items.abmahnung %}
+          <input type="radio" id="{{item.id}}" name="abmahnung" value="{{item.id}}" {% if loop.first %}checked{% endif %}>
+          <label for="{{item.id}}">{{item.label}}</label>
+        {% endfor %}
       </div>
     </div>
 
@@ -111,13 +113,14 @@
             placeholder="{{item.placeholder}}">
         </div>
         {% elif item.type == 'date' %}
-        <div class="mb-md">
+        <div class="mb-md"{% if item.id == 'Frist' %} id="frist-container" style="display:none"{% endif %}>
           <label for="{{item.id}}">{{item.label}}</label>
           <input 
             type="text" 
             id="{{item.id}}"
             name="{{item.id}}" 
             value="{{item.placeholder}}"
+            {% if item.id == 'Frist' %}disabled{% endif %}
             {% if item.required == 'true' %}required{% endif %}>
         </div>
         {% endif %}
@@ -157,6 +160,23 @@ document.getElementById('btn-last-dach').addEventListener('click', function() {
       msg.style.color = '#d32f2f';
       msg.textContent = 'Fehler beim Laden.';
     });
-});
+  });
+
+  var fristCheckbox = document.getElementById('frist_aktiv');
+  if (fristCheckbox) {
+    function toggleFrist() {
+      var container = document.getElementById('frist-container');
+      var input = document.getElementById('Frist');
+      if (!fristCheckbox.checked) {
+        container.style.display = 'none';
+        input.disabled = true;
+      } else {
+        container.style.display = '';
+        input.disabled = false;
+      }
+    }
+    fristCheckbox.addEventListener('change', toggleFrist);
+    toggleFrist();
+  }
 </script>
 {% endblock %}

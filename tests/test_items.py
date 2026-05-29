@@ -132,7 +132,7 @@ def test_abmahnung_item_has_frist():
     frist_item = get_item_by_id(items, "Frist")
     assert frist_item is not None
     assert frist_item["type"] == "date"
-    assert frist_item["required"] == "true"
+    assert frist_item["required"] == "false"
     assert frist_item["placeholder"]
 
 
@@ -232,6 +232,7 @@ def test_abmahnung_frist_parsed(app_client):
             "drittelung": "drittelung_keine",
             "unkraut": "unkraut_keine",
             "Frist": "30.05.26",
+            "frist_aktiv": "on",
             "abmahnung": "abmahnung_erste",
         },
     )

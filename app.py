@@ -118,7 +118,7 @@ def form():
         )
         session["unkraut"] = get_output_text(items, request.form.get("unkraut"), "")
 
-        session["frist"] = request.form.get("Frist", "")
+        session["frist"] = request.form.get("Frist", "") if "frist_aktiv" in request.form else ""
 
         abmahnung_select = request.form.get("abmahnung", "abmahnung_keine")
         session["abmahnung"] = abmahnung_select != "abmahnung_keine"

@@ -149,7 +149,7 @@ Alle Formularfelder werden aus `static/items.csv` geladen. Die Datei wird bei je
 |------|---------------|
 | id | Eindeutiger Identifier (für HTML name) |
 | category | Gruppierung (Basis, Dachbauten, Drittelung, Unkraut, Sonstiges, Abmahnung) |
-| type | number, text, select, checkbox, date |
+| type | number, text, select, checkbox, date (select-Items werden als Radio-Buttons bzw. Button-Gruppe gerendert) |
 | label | Anzeige im Formular |
 | output_text | Text für PDF/CSV (`{value}` wird ersetzt; leer lassen bei Freitextfeldern) |
 

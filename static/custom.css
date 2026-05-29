@@ -167,6 +167,89 @@ input[required] {
 }
 
 /* ============================================
+   Radio button group
+   ============================================ */
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.radio-wrapper {
+  display: flex;
+  align-items: flex-start;
+  padding: var(--spacing-sm) 0;
+  cursor: pointer;
+}
+
+.radio-wrapper input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: var(--spacing-md);
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.radio-wrapper span {
+  flex: 1;
+  font-weight: normal;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+/* ============================================
+   Button group (Abmahnung)
+   ============================================ */
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.btn-group input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.btn-group label {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: var(--font-size-base);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  min-height: 44px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-group label:hover {
+  border-color: var(--color-primary-light);
+  background: #f5f5f5;
+}
+
+.btn-group input[type="radio"]:checked + label {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.btn-group input[type="radio"]:focus-visible + label {
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.3);
+}
+
+/* ============================================
    Buttons
    ============================================ */
 

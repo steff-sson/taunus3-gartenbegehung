@@ -36,7 +36,9 @@
     <li>{{item}}</li>
   {% endfor %}
   </ul>
+  {% if session.get('frist', '').strip() %}
   <p style="font-size:9pt;font-weight:bold;margin-top:10px">Wir bitten dich, die oben genannten Punkte zu beachten und M&auml;ngel bis zum {{session.get('frist', '')}} zu beseitigen.</p>
+  {% endif %}
 </section>
 
 <section class="legal">

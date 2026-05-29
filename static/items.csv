@@ -11,7 +11,7 @@ drittelung_keine_nutzung,Drittelung,select,false,Keine Drittelung/kleingärterni
 unkraut_keine,Unkraut,select,false,Keine Anmerkungen,,"Achte gerne auch weiterhin darauf, Unkraut mit Samenflug sowie invasive Pflanzen, die sich negativ auf Nachbargarten ausbreiten, regelmäßig zu entfernen.", Unkraut mit Samenflug sowie invasive Pflanzen, die sich negativ auf Nachbargarten ausbreiten
 unkraut_samen,Unkraut,select,false,Unkraut mit Samenflug / Invasive Pflanzen,,"Der Garten weist Unkraut mit Samenflug bzw. invasive Pflanzen, die sich negativ auf Nachbargarten ausbreiten, auf. Bitte Unkraut mit Samenflug bzw. invasive Pflanzen entfernen.", die sich negativ auf Nachbargarten ausbreiten, auf. Um einer Abmahnung vorzubeugen bitte bis 31.07.2026 Unkraut mit Samenflug bzw. invasive Pflanzen entfernen und dies mit Fotos dem Vorstand (vorstand@taunus3.de) nachweisen.
 details0,Sonstiges,checkbox,false,Der Garten ist insgesamt in einem guten Zustand.,,Der Garten ist insgesamt in einem guten Zustand. Weiter so!,info,
-details1,Sonstiges,checkbox,false,Kein Stromzählerstand erfasst.,,Kein Stromzählerstand erfasst. Bitte den Stromzählerstand mit Foto an vorstand@taunus3.de übermitteln.,warning,
+details1,Sonstiges,checkbox,false,Kein Stromzählerstand erfasst.,,Bitte den Stromzählerstand an vorstand@taunus3.de übermitteln.,warning,
 details2,Sonstiges,checkbox,false,Kein Kompost vorhanden.,,Kein Kompost vorhanden. Bitte einen Kompost anlegen.,warning,
 details3,Sonstiges,checkbox,false,Unrat/Müll im Garten,,In dem Garten lagert Unrat/Müll. Bitte entfernen.,error,
 details4,Sonstiges,checkbox,false,Sichtschutz (nicht aus Pflanzen),,"Sichtschutz, der nicht aus Pflanzen besteht, ist verboten. Bitte entfernen.", der nicht aus Pflanzen besteht, ist verboten. Bitte bis zum 31.07.2026 entfernen.
@@ -22,7 +22,8 @@ details9,Sonstiges,checkbox,false,Kranke Gehölze/Bäume,,Der Garten enthält kr
 details10,Sonstiges,checkbox,false,Parzellennummer nicht sichtbar,,Bitte die Parzellennummer sichtbar anbringen.,warning,
 details11,Sonstiges,checkbox,false,Hauptweg mit Unkraut,,Der Hauptweg ist zu stark mit Unkraut bewachsen. Bitte entfernen.,warning,
 weiteres,Sonstiges,text,false,Weiteres,,,info,
-Frist,Sonstiges,date,true,Frist,30.05.26,,,
+frist_aktiv,Sonstiges,checkbox,false,Frist setzen,,,info,
+Frist,Sonstiges,date,false,Frist,30.08.26,,,
 abmahnung_keine,Abmahnung,select,false,Keine,,,info,
 abmahnung_erste,Abmahnung,select,false,Erste Mahnung,,,warning,
 abmahnung_zweite,Abmahnung,select,false,Zweite Mahnung,,,error,

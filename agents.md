@@ -74,7 +74,7 @@ sudo systemctl restart taunus3-gartenbegehung
 ### Templates
 
 - `layout.html` / `layout-certificate.html` - Basis-Layouts (W3.CSS)
-- `form.html` - Dynamisches Formular (Loop über CSV), inkl. Dach-Daten-Button und Abmahnung-Select
+- `form.html` - Dynamisches Formular (Loop über CSV), inkl. Dach-Daten-Button; Selects als Radio-Buttons oder Button-Gruppe gerendert
 - `preview.html` - Vorschau vor Speichern, inkl. Abmahnung-Warnung und Frist-Hinweis
 - `certificate.html` - PDF-Vorlage, inkl. Frist-Hinweis nach Sonstiges-Liste
 - `abmahnung.html` - Abmahnung-PDF (dynamischer Titel je Mahnungslevel)
@@ -100,7 +100,7 @@ Die CSV-Datei steuert alle Formularfelder. Änderungen werden bei jedem Request 
 |------|-----|--------------|----------|
 | id | string | Eindeutiger Identifier (für HTML name="" ) | parzelle, dachbauten_keine |
 | category | string | Gruppierung (Basis, Dachbauten, Drittelung, Unkraut, Sonstiges, Abmahnung) | Basis |
-| type | string | Input-Typ | number, text, select, checkbox, date |
+| type | string | Input-Typ (select-Items werden als Radio-Buttons bzw. Button-Gruppe gerendert) | number, text, select, checkbox, date |
 | required | string | Pflichtfeld (true/false) | true |
 | label | string | Anzeigetext im Formular | Parzellennummer |
 | placeholder | string | Placeholder-Text | z.B. 42 |
@@ -135,7 +135,7 @@ pytest --cov=app --cov-report=term-missing
 ## Styling
 
 - **CSS-Framework:** W3.CSS (CDN)
-- **Custom CSS:** `static/custom.css`
+- **Custom CSS:** `static/custom.css` (enthält Styles für Radio-Buttons, Button-Gruppe, Checkboxen, Formular, Layout)
 - **JS:** `static/slider-value.js`
 - **Farbschema:** Türkis (#009688) als Primärfarbe (BKleingG-konform)
 
