@@ -282,8 +282,29 @@ def test_api_last_dach_no_parzelle(app_client):
     assert "error" in data
 
 
-def test_api_last_dach_missing(app_client):
-    resp = app_client.get("/api/last-dach?parzelle=99999")
+def test_api_clean_empty(app_client):
+    import tempfile, os, shutil
+    from app import app
+    static_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static")
+    test_csv = os.path.join(static_dir, "gartenbegehung-test-clean.csv")
+    with open(test_csv, "w") as f:
+        f.write("Datum;Parzelle;Dach;Strom;Dachbauten;Dachbauten_Text;Drittelung;Drittelung_Text;Unkraut;Unkraut_Text;Details;Abmahnung;Abmahnung_Level;Frist\n")
+    resp = app_client.get("/api/clean?jahr=test-clean")
+    os.remove(test_csv)
+    assert resp.status_code == 200
+    data = resp.get_json()
+    assert data["deleted"] == 0
+    assert data["kept"] == 0
+
+def test_api_generate_all_no_csv(app_client):
+    resp = app_client.get("/api/generate-all?jahr=2099")
     assert resp.status_code == 404
     data = resp.get_json()
     assert "error" in data
+
+
+def test_api_last_dach_missing(app_client):
+    resp = app_client.get("/api/last-dach?parzelle=99999")
+    assert resp.status_code == 200
+    data = resp.get_json()
+    assert "info" in data

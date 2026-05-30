@@ -1,8 +1,16 @@
 {% extends "layout.html" %}
-
   {% block content %}
 
-  Bereits erstellte Gartenbewertungen (PDF)
+  <h2>PDF-Verwaltung</h2>
+
+  <div id="admin-msg" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:4px"></div>
+
+  <div style="margin-bottom:20px;display:flex;gap:8px;flex-wrap:wrap">
+    <button class="w3-btn w3-teal" onclick="adminAction('/api/generate-all', 'Generiere alle PDFs...', true)">Alle PDFs generieren</button>
+    <button class="w3-btn w3-orange" onclick="adminAction('/api/clean', 'Bereinige CSV...')">CSV bereinigen</button>
+  </div>
+
+  <h3>Bereits erstellte PDFs</h3>
 
   <ul>
     {%- for item in tree.children recursive %}
@@ -13,5 +21,38 @@
       </li>
     {%- endfor %}
   </ul>
+
+  <script>
+  function adminAction(url, loadingMsg, reload) {
+    var msg = document.getElementById('admin-msg');
+    msg.style.display = 'block';
+    msg.style.background = '#fff3cd';
+    msg.style.color = '#856404';
+    msg.textContent = loadingMsg;
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        msg.style.background = '#d4edda';
+        msg.style.color = '#155724';
+        if (data.error) {
+          msg.style.background = '#f8d7da';
+          msg.style.color = '#721c24';
+          msg.textContent = data.error;
+        } else if (data.certificates !== undefined) {
+          msg.textContent = data.certificates + ' Zertifikate, ' + data.abmahnungen + ' Abmahnungen erstellt.';
+        } else if (data.deleted !== undefined) {
+          msg.textContent = data.deleted + ' Duplikate entfernt, ' + data.kept + ' Eintr\u00e4ge behalten.';
+        } else {
+          msg.textContent = JSON.stringify(data);
+        }
+        if (reload) setTimeout(function() { location.reload(); }, 1500);
+      })
+      .catch(function() {
+        msg.style.background = '#f8d7da';
+        msg.style.color = '#721c24';
+        msg.textContent = 'Fehler beim Ausf\u00fchren.';
+      });
+  }
+  </script>
 
   {% endblock %}

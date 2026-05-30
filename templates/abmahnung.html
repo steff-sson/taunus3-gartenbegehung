@@ -33,9 +33,12 @@
   {% endfor %}
 </ul>
 
+{% if level != 'abmahnung_dritte' %}
 <p>
-  Bitte weisen Sie das Abstellen der Pflichtverletzung mit Fotos dem Vorstand per E-Mail an <strong>vorstand@taunus3.de</strong> nach. Der Vorstand beh&auml;lt sich eine erneute Begehung Ihres Gartens zur Begutachtung vor. Eine 3. Abmahnung f&uuml;hrt zur K&uuml;ndigung.
+  Bitte weisen Sie das Abstellen der Pflichtverletzung mit Fotos dem Vorstand per E-Mail an <strong>vorstand@taunus3.de</strong> nach. Der Vorstand beh&auml;lt sich eine erneute Begehung Ihres Gartens zur Begutachtung vor.
 </p>
+{% endif %}
+<p>Eine 3. Abmahnung f&uuml;hrt zur K&uuml;ndigung.</p>
 
 <footer>
   <p>Vorstand KGV Anlage 3 e.V. &ndash; Frankfurt, den {{session['datum']}}</p>

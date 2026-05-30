@@ -150,7 +150,7 @@ document.getElementById('btn-last-dach').addEventListener('click', function() {
       if (data.dach) {
         document.getElementById('dach').value = data.dach;
         msg.style.color = '#2e7d32';
-        msg.textContent = 'Dachgröße aus ' + (new Date().getFullYear() - 1) + ' geladen: ' + data.dach + ' m²';
+        msg.textContent = 'Dachgröße aus ' + data.jahr + ' geladen: ' + data.dach + ' m²';
       } else {
         msg.style.color = '#e65100';
         msg.textContent = data.error || 'Keine Daten gefunden.';
