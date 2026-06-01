@@ -1,13 +1,17 @@
 # taunus3-gartenbegehung
 
-Formular zur Dateneingabe einer Gartenbegehung für den Kleingartenverein Taunusgärten Anlage 3 e.V. – inklusive Abmahnung-PDF und automatischer Datenübernahme aus dem Vorjahr.
+Formular zur Dateneingabe einer Gartenbegehung für den Kleingartenverein Taunusgärten Anlage 3 e.V. – inklusive Abmahnung-PDF, automatischer Datenübernahme aus dem Vorjahr, Batch-PDF-Generierung und CSV-Bereinigung.
 
 ## Appstack
 
-- **Flask** - Web-Framework
-- **WeasyPrint** - PDF-Generierung
-- **CSV** - Datenhaltung (jahrweise)
-- **Jinja2** - Templates
+- **Flask** – Web-Framework
+- **WeasyPrint** – PDF-Generierung
+- **CSV** – Datenhaltung (jahrweise, 14 Spalten mit IDs)
+- **Jinja2** – Templates
+
+## Lizenz
+
+GNU General Public License v3. Siehe `LICENSE`.
 
 ## Lokale Entwicklung
 
@@ -77,7 +81,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # Service neu starten
-sudo systemctl restart gartenbegehung
+sudo systemctl restart taunus3-gartenbegehung
 ```
 
 ### 3. systemd-Service einrichten
@@ -98,6 +102,20 @@ sudo journalctl -u taunus3-gartenbegehung -f
 
 ---
 
+## Routen
+
+| Route | Zweck |
+|-------|-------|
+| `/` | Startseite |
+| `/name` | Namenseingabe |
+| `/form` | Formular (GET/POST) |
+| `/preview` | Vorschau + PDF-Generierung |
+| `/done` | Session löschen |
+| `/pdfs` | PDF-Verzeichnisbaum + Admin-Buttons |
+| `/api/last-dach?parzelle=X` | Dachgröße laden (aktuelles Jahr → Vorjahr → Keine Daten) |
+| `/api/clean` | CSV deduplizieren (letzter Eintrag pro Parzelle) |
+| `/api/generate-all` | Batch-PDF + CSV-Update (`?csv-only=true` für Nur-CSV) |
+
 ## Ordnerstruktur
 
 ```
@@ -105,13 +123,13 @@ taunus3-gartenbegehung/
 ├── .venv/                    # Virtuelle Umgebung
 ├── requirements.txt          # Python-Abhängigkeiten
 ├── static/
-│   ├── items.csv             # Formular-Konfiguration
-│   ├── pdf/                  # Generierte PDFs
-│   │   └── 2026/
-│   └── gartenbegehung-2026.csv  # Jahresdaten
-├── templates/
-├── app.py
-└── agents.md                 # Entwickler-Doku
+│   ├── items.csv             # Formular-Konfiguration (Alleinstellungsmerkmal)
+│   ├── pdf/{jahr}/           # Generierte PDFs
+│   └── gartenbegehung-{jahr}.csv  # Jahresdaten (14 Spalten, semikolon-getrennt)
+├── templates/                # Jinja2-Vorlagen
+├── app.py                    # Flask-App
+├── agents.md                 # Entwickler-Dokumentation
+└── LICENSE                   # GPL v3
 ```
 
 ---
@@ -134,8 +152,8 @@ echo "FLASK_ENV=production" >> .env
 
 Die Konfiguration erfolgt über die `.env`-Datei:
 
-- `SECRET_KEY` - Flask Secret Key
-- `FLASK_ENV` - development / production
+- `SECRET_KEY` – Flask Secret Key
+- `FLASK_ENV` – development / production
 
 ---
 
@@ -149,11 +167,28 @@ Alle Formularfelder werden aus `static/items.csv` geladen. Die Datei wird bei je
 |------|---------------|
 | id | Eindeutiger Identifier (für HTML name) |
 | category | Gruppierung (Basis, Dachbauten, Drittelung, Unkraut, Sonstiges, Abmahnung) |
-| type | number, text, select, checkbox, date (select-Items werden als Radio-Buttons bzw. Button-Gruppe gerendert) |
+| type | number, text, select, checkbox, date |
 | label | Anzeige im Formular |
-| output_text | Text für PDF/CSV (`{value}` wird ersetzt; leer lassen bei Freitextfeldern) |
+| output_text | Text für PDF/CSV (`{value}` wird ersetzt; bei Komma-Inhalt quoten) |
 
 Ausführliche Dokumentation: `agents.md`
+
+## Datenhaltung (CSV-Schema)
+
+Seit Mai 2026 hat die Jahres-CSV 14 Spalten:
+
+```
+Datum;Parzelle;Dach;Strom;Dachbauten;Dachbauten_Text;Drittelung;Drittelung_Text;Unkraut;Unkraut_Text;Details;Abmahnung;Abmahnung_Level;Frist
+```
+
+Die ID-Spalten (`Dachbauten`, `Drittelung`, `Unkraut`) speichern die Auswahl-ID aus `items.csv`. Der Batch-Generator (`/api/generate-all`) löst diese IDs live auf – Änderungen in `items.csv` wirken sofort auf neu generierte PDFs.
+
+## Admin-Funktionen
+
+Auf der Seite `/pdfs` finden sich zwei Buttons:
+
+- **Alle PDFs generieren** – Ruft `/api/generate-all` auf, erzeugt für jeden CSV-Eintrag eine Bewertungs-PDF und ggf. eine Abmahnung-PDF
+- **CSV bereinigen** – Ruft `/api/clean` auf, entfernt doppelte Einträge (behält nur den letzten pro Parzelle)
 
 ## Tests
 
@@ -161,6 +196,8 @@ Ausführliche Dokumentation: `agents.md`
 pytest
 ```
 
+20 Tests (Stand Juni 2026).
+
 ## Weitere Dokumentation
 
-- `agents.md` - Entwickler-Dokumentation
+- `agents.md` – Entwickler-Dokumentation
